@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>PMP ITTO Quizz - By Fabrice Rasoamiaramanana</title>
+
+	<!-- Sets initial viewport load and disables zooming  -->
+	<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+
+	<!-- Makes your prototype chrome-less once bookmarked to your phone's home screen -->
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+	<!-- Include the compiled Ratchet CSS -->
+	<link href='http://fonts.googleapis.com/css?family=PT+Sans' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+	<link href="css/ratchet.css" rel="stylesheet">
+
+
+	<!-- Include the apps css -->
+	<link href="css/card.css" rel="stylesheet" >
+	<link href="css/pmpitto.css" rel="stylesheet" >
+
+	<link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css">
+
+
+	<script src="js/markdown.min.js"></script>
+
+	<script src="js/jquery-1.11.1.min.js"></script>
+	<script src="js/jquery.mobile-1.4.5.min.js"></script>
+
+
+	<script src="js/pmpitto-utils.js"></script>
+	<script src="js/pmpitto.js"></script>
+
+	<script>
+
+
+		function onAppStart()
+		{
+			initService();
+		  	initUI();
+		}
+	    
+
+	    document.addEventListener("deviceready", onAppStart, false);
+
+	    $(document).ready(function() 
+	    {
+	        // are we running in native app or in a browser?
+	        window.isphone = false;
+	        if(document.URL.indexOf("http://") === -1 
+	            && document.URL.indexOf("https://") === -1) 
+	        {
+	            window.isphone = true;
+	        }
+
+	        window.isphone = false;
+
+	        if( !window.isphone ) 
+	        {
+	            onAppStart();
+	        }
+	    });
+
+	</script>
+
+
+
+	<!--script src="phonegap.js"></script-->
+</head>
+<body>
+	<div id="loader"></div>
+	<div id="sticky" class="ui-screen-hidden">
+	<!-- Make sure all your bars are the first things in your <body> -->
+	<header class="bar bar-nav blue-nav">
+		<a href="#menu-popover" class="icon icon-bars pull-left"></a>
+		<div id="nav-bar-container">
+		<!--h1 class="title">TODAY</h1-->
+		<ul>
+			<li class="checked" id="menu-item-list-view">list</li>
+			<li id="menu-item-calendar-view">calendar</li>
+			<li id="menu-item-stats-view">stats</li>
+		</ul>	
+		<div id="ui-btn-settings-container">
+              <a href="#" class="btn-settings"><img src="images/settings.png" class="btn-settings"></a>
+        </div>
+		</div>
+	</header>
+	<div class="wallpaper-backdrop"></div>
+	<div class="bar bar-standard bar-header-secondary">
+		<form class="input-group">
+			<div class="input-row">
+				<input type="text" style="display:none;">
+				<input type="text" name="new-item" class="pull-left" placeholder="Add New Item" autocomplete="off">
+				<button type="button" name="btn-add" class="btn btn-primary pull-right">
+					<span class="icon icon-plus"></span>
+				</button>
+			</div>	
+		</form>
+	</div>
+	<div id="routine-detail-content" class="content">
+		
+	</div>
+	<div id="listview-content" class="content" data-role="page" data-theme="b" data-content-theme="b">
+
+
+
+
+
+  </div>
+
+
+		<ul class="table-view">
+			
+		</ul>
+	</div>
+	<div id="calendar-content" class="content">
+		<div id="project-calendar">
+
+
+
+		</div>
+	</div>
+	
+
+
+</div>
+</body>
+
+
+</html>
