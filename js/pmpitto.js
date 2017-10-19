@@ -817,7 +817,7 @@ function createITTOCard(type, caption, processCaption, versoList, pageNb)
 	card.addTag(caption);
 	card.addTag(processCaption);
 	card.addTag(typeStr);
-	card.setImage('../images/' + type + '.png');
+	card.setImage('./images/' + type + '.png');
 
 }
 
@@ -845,7 +845,7 @@ function htmlFromCard(card)
 	<div class="task-card swipedInCard" id="{0}" >
 				<div class="card-pin"></div>
 				<div class="card-title">
-					<div class="avatar-container"><img src="https://randomuser.me/api/portraits/thumb/men/66.jpg" alt="anton sørensen" class="user-small-avatar" ></div>
+					<div class="avatar-container"><img src="{5}" alt="anton sørensen" class="user-small-avatar" ></div>
 					<h3>{1}</h3>
 					<!--div class="btn-edit-task" data-source="{0}"></div-->
 				</div>
@@ -886,7 +886,8 @@ function htmlFromCard(card)
 		card.getCaption(),
 		markdown.toHTML(card.getRecto()),
 		htmlFromTags(card),
-		card.getTags()[1]
+		card.getTags()[1],
+		card.getImage()
 	);
 }
 
