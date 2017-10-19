@@ -7,7 +7,7 @@
 
     <name>PMP Itto Card</name>
     <description>
-        PMP Itto Card is an application that will help you memorize the PMP Ittos (Project Management Professional Inputs, Tools & Techniques and Outputs.) from the PMBOK 5th Edition for the preparation of a PMP or CAPM exams. The application uses the concept of spaced repetition.
+        PMP Itto Card is an application that will help you memorize the PMP Ittos (Project Management Professional Inputs, Tools and Techniques and Outputs.) from the PMBOK 5th Edition for the preparation of a PMP or CAPM exams. The application uses the concept of spaced repetition.
     </description>
     <author email="fabrice@projectfurnace.org" href="http://pmpitto.projectfurnace.org">
         Fabrice Rasoamiaramanana
@@ -22,7 +22,6 @@
     <platform name="ios"/>
     <platform name="android"/>
     <platform name="winphone"/>
-    <preference name="phonegap-version" value="cli-6.5.0" />
     <preference name="orientation" value="portrait" />
     <preference name="fullscreen" value="false" />
     <preference name="webviewbounce" value="false" />
