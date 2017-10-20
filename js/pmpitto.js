@@ -1,9 +1,19 @@
 "use strict";
+
+var CURRENT_VERSION = '0.0.3';
+
+
 var lastClickedObject = null;
 var currentDeck = [];
 var currentEvaluationTags = [];
 var NB_QUESTION_PER_ROUND = 10;
 var cuurentQuestionNb = 0;
+
+var gBucketScore = { 0 : 0, 1 : 1, 2 : 2, 3 : 10, 4 : 60, 5 : 300, 6 : 1440, 7 : 7200, 8 : 36000 };
+
+
+
+
 
 function centerModalDialog()
 {
@@ -67,16 +77,23 @@ function initService()
 {
 
 	var data = localStorage.getItem(app_id + ".data");
-	if (typeof(data) !== "undefined" && data !== null)
+	if (typeof(data) !== "undefined" && data !== null && localStorage.getItem(app_id + ".version") === CURRENT_VERSION)
 	{
+		localStorage.setItem(app_id + ".version", CURRENT_VERSION);
 		var o = JSON.parse(data);
-		Object.keys(o).forEach(function(key) {
-		    new Card(o[key]);
+		var newEvalDate =  Math.floor(Date.now() / 60000);
+		Object.keys(o).forEach(
+			function(key) {
+		    	var card = new Card(o[key]);
+		    	var newScore = card.getScore() - (newEvalDate - card.getLastEval());
+		    	newScore = (0 > newScore) ? 0 : newScore;
+		    	card.setScore(newScore);
+		    	card.setLastEval(newEvalDate);
 		});
 	}
 	else
 	{
-		createPMBOKProcess();
+		createPMBOKProcesses();
 	}
 
 	create();
@@ -169,7 +186,7 @@ function clickPerformed(evt)
 		var card = CARDS[$(lastClickedObject).data("source")];
 		if (typeof(card) !== "undefined" && (card instanceof Card))
 	 	{
-	 		rateCard(card, "easy");
+	 		card.rateCard("easy");
 	 	}
 	 	nextQuestion();
 	}
@@ -178,7 +195,7 @@ function clickPerformed(evt)
 		var card = CARDS[$(lastClickedObject).data("source")];
 		if (typeof(card) !== "undefined" && (card instanceof Card))
 	 	{
-	 		rateCard(card, "medium");
+	 		card.rateCard("medium");
 	 	}
 	 	nextQuestion();
 	}
@@ -187,7 +204,7 @@ function clickPerformed(evt)
 		var card = CARDS[$(lastClickedObject).data("source")];
 		if (typeof(card) !== "undefined" && (card instanceof Card))
 	 	{
-	 		rateCard(card, "hard");
+	 		card.rateCard("hard");
 	 	}
 	 	nextQuestion();
 	}
@@ -196,42 +213,12 @@ function clickPerformed(evt)
 		var card = CARDS[$(lastClickedObject).data("source")];
 		if (typeof(card) !== "undefined" && (card instanceof Card))
 	 	{
-	 		rateCard(card, "fail");
+	 		card.rateCard("fail");
 	 	}
 	 	nextQuestion();
 	}
 }
 
-
-function rateCard(card, rating)
-{
-	var score = card.getScore();
-	var lastEval = card.getLastEval();
-	var newEvalDate =  Math.floor(Date.now() / 60000);
-
-	if (rating === "easy")
-	{
-		score = (newEvalDate - lastEval) * 3;
-		score = (score === -1) ? 10 : score;
-		score = (score > 4320) ? 4320 : score;
-	}
-	else if (rating === "medium")
-	{
-		score = (score === -1) ? 5 : score;
-	}
-	else if (rating === "hard")
-	{
-		score = -5;
-	}
-	else if (rating === "fail")
-	{
-		score = -10;
-	}
-
-
-	card.setScore(score);
-	card.setLastEval(newEvalDate);
-}
 
 function tapholdEventHandler(evt)
 {
@@ -494,6 +481,7 @@ class Card
 
 			this._score = object._score;
 			this._lastEval = object._lastEval;
+			this._lastBucketIndex = object._lastBucketIndex;
 
 			for (var i = 0; i < object._tags.length; i++)
 			{
@@ -511,6 +499,7 @@ class Card
 			this.addTag('pmbok 5th Ed');
 			this._score = -1;
 			this._lastEval = -1;
+			this._lastBucketIndex = 1;
 		}
 		
 
@@ -573,7 +562,6 @@ class Card
 	setLastEval(lastEval)
 	{
 		this._lastEval = lastEval;
-		saveAll();
 	}
 
 	/* ------------------------------------------------------------- *
@@ -582,6 +570,91 @@ class Card
 	getScore()
 	{
 		return this._score;
+	}
+
+
+	/* ------------------------------------------------------------- *
+	 * method: getBucketIndex() returns the bucket index for the current card
+	 *         the higher the index, the least frequently asked is the card
+	 * ------------------------------------------------------------- */
+	getBucketIndex()
+	{
+		// new card
+		if (this._score === gBucketScore[1])
+		{
+			return 1;
+		}
+		// 25 day
+		else if (this._score >= gBucketScore[8])
+		{
+			return 8;
+		}
+		// 5 day
+		else if (this._score >= gBucketScore[7])
+		{
+			return 7;
+		}
+		// 1 day
+		else if (this._score >= gBucketScore[6])
+		{
+			return 6;
+		}
+		// 5h
+		else if (this._score >= gBucketScore[5])
+		{
+			return 5;
+		}
+		//1 hour
+		else if (this._score >= gBucketScore[4])
+		{
+			return 4;
+		}
+		// 10 min
+		else if (this._score >= gBucketScore[3])
+		{
+			return 3;
+		} 
+		// 2min
+		else if (this._score >= gBucketScore[2])
+		{
+			return 2;
+		}
+		// failed card
+		else if (0 >= this._score)
+		{
+			return 0;
+		}
+
+		
+	}
+
+
+
+	rateCard(rating)
+	{
+		if (rating === "hard")
+		{
+			this._score = 9;
+			this._lastBucketIndex = 2;
+		}
+		else if (rating === "fail")
+		{
+			this._score = -10;
+			this._lastBucketIndex = 0;
+		}
+		else
+		{
+			this._lastBucketIndex = this._lastBucketIndex === 0 ? 2 : (this._lastBucketIndex + 1);
+			this._lastBucketIndex = this._lastBucketIndex > 8 ? 8 : this._lastBucketIndex;
+			this._score = gBucketScore[this._lastBucketIndex];
+			if (rating === 'easy')
+			{
+				this._score *= 2;
+			}
+		}
+
+		var newEvalDate =  Math.floor(Date.now() / 60000);
+		this._lastEval = newEvalDate;
 	}
 
 
@@ -762,8 +835,8 @@ function cardFiltering(tagIdList)
 
 function compareCards(a, b)
 {
-	if (b._score > a._score) { return -1; }
-	if (a._score > b._score) { return 1; }
+	if (b.getBucketIndex() > a.getBucketIndex()) { return -1; }
+	if (a.getBucketIndex() > b.getBucketIndex()) { return 1; }
 	return 0;
 }
 
@@ -841,6 +914,8 @@ function htmlFromTags(card)
 
 function htmlFromCard(card)
 {
+	var cardScore = {0 : 0, 1 : 0, 2 : 10, 3: 30, 4 : 50, 5 : 60, 6 : 75, 7 : 90, 8 : 100};
+	var scoreLabel = {0 :'fail', 1 : 'new', 2 : 'newbie', 3: 'average', 4 : 'good', 5 : 'very good', 6 : 'great', 7 : 'master', 8 : 'genius'};
 	var html = `
 	<div class="task-card swipedInCard" id="{0}" >
 				<div class="card-pin"></div>
@@ -859,8 +934,9 @@ function htmlFromCard(card)
 						{3}<!--div class="btn-edit-tags" data-source="{0}"></div-->
 					</div>
 
-					
 				</div>
+
+				<div class="circular-progress"><div class="c100 p{6} small ">    <span data-from="0" data-to="{6}" class="project-progress">{7}</span>    <div class="slice">        <div class="bar"></div>        <div class="fill"></div>    </div></div><h3>card score</h3></div>
 				<div class="card-footer">
 					
 					<div class="card-bottom-btn-container">
@@ -887,13 +963,15 @@ function htmlFromCard(card)
 		markdown.toHTML(card.getRecto()),
 		htmlFromTags(card),
 		card.getTags()[1],
-		card.getImage()
+		card.getImage(),
+		cardScore[card._lastBucketIndex].toString(),
+		scoreLabel[card._lastBucketIndex]
 	);
 }
 
 
 
-function createPMBOKProcess()
+function createPMBOKProcesses()
 {
 
 	/* INTEGRATION */
@@ -974,7 +1052,7 @@ function createPMBOKProcess()
 
 	createITTOCard('inputs', 'Time', 'develop Schedule', ['Schedule management plan','Activity list','Activity attributes','Project schedule network diagrams','Activity resource requirements','Resource calendars','Activity duration estimates','Project scope statement','Risk register','Project staff assignments','Resource breakdown structure','Enterprise environmental factors','Organizational process assets'], 172);
 	createITTOCard('tools', 'Time', 'develop Schedule', ['Schedule network analysis','Critical path method','Critical chain method','Resource optimization techniques','Modeling techniques','Leads and lags','Schedule compression','Scheduling tool'], 172);
-	createITTOCard('outputs', 'Time', 'develop Schedule', ['Schedule baseline','Project schedule','Schedule data','Project calendars','Project management plan updates','roject documents updates','','','','','','','','','',''], 172);
+	createITTOCard('outputs', 'Time', 'develop Schedule', ['Schedule baseline','Project schedule','Schedule data','Project calendars','Project management plan updates','Project documents updates'], 172);
 
 	
 	createITTOCard('inputs', 'Time', 'control Schedule', ['Project management plan','Project schedule','Work performance data','Project calendars','Schedule data','Organizational process assets'], 185);

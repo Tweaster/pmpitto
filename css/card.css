@@ -208,9 +208,10 @@ input
   margin: auto;
   display: inline-block;
   color: white;
+  font-size: 11px;
   text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.3);
-  width: 70px;
-  padding: 8px 12px;
+  width: 60px;
+  padding: 8px 8px;
   border-radius: 4px;
   -webkit-box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.55);
   -moz-box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.55);
@@ -356,6 +357,7 @@ input
   overflow: scroll;
 	margin: 5px 0px;
   padding-top: 5px;
+  padding-bottom: 5px;
 	
 }
 
@@ -377,6 +379,7 @@ input
 .tag-container, .team-member-container
 {
   border-top: 1px dashed;
+  border-bottom: 1px dashed;
 }
 
 .card-bottom-btn-container > *
@@ -1177,6 +1180,11 @@ background: gradient(linear, left top, left bottom, from(#bbb), to(#888));
     vertical-align: middle;
 }
 
+
+.slice > .bar {
+  padding: 0px;
+  z-index: 0;
+}
 
 .circular-progress
 {
