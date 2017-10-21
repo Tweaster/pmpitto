@@ -977,8 +977,6 @@ function createPMBOKProcesses()
 
 	/* INTEGRATION */
 
-
-	/*
 	createITTOCard('inputs', 'Integration', 'Develop Project Charter', ['Project statement of work', 'Business case', 'Agreements', 'Enterprise environmental factors', 'Organizational process assets'], 66);
 	createITTOCard('tools', 'Integration', 'Develop Project Charter', ['Expert judgment', 'Facilitation techniques'], 66);
 	createITTOCard('outputs', 'Integration', 'Develop Project Charter', ['Project charter'], 66);
@@ -1008,7 +1006,7 @@ function createPMBOKProcesses()
 
 	/* SCOPE */
 
-	/*
+	
 	createITTOCard('inputs', 'Scope', 'plan scope management', ['Project management plan','Project charter','Enterprise environmental factors','Organizational process assets'], 106);
 	createITTOCard('tools', 'Scope', 'plan scope management', ['Expert judgment','Meetings'], 106);
 	createITTOCard('outputs', 'Scope', 'plan scope management', ['Scope management plan','Requirements management plan'], 106);
@@ -1039,7 +1037,7 @@ function createPMBOKProcesses()
 	createITTOCard('tools', 'Time', 'Plan Schedule Management', ['Expert judgment','Analytical techniques', 'Meetings'], 145);
 	createITTOCard('outputs', 'Time', 'Plan Schedule Management', ['Schedule management plan'], 145);
 
-/*
+
 	createITTOCard('inputs', 'Time', 'define Activities', ['Schedule management plan','Scope baseline','Enterprise environmental factors','Organizational process assets'], 149);
 	createITTOCard('tools', 'Time', 'define Activities', ['Decomposition','Rolling wave planning','Expert judgment'], 149);
 	createITTOCard('outputs', 'Time', 'define Activities', ['Activity list','Activity attributes','Milestone list'], 149);
@@ -1067,7 +1065,7 @@ function createPMBOKProcesses()
 
 
 	/* COST */
-	/*
+	
 	createITTOCard('inputs', 'Cost', 'Plan Cost Management', ['Project management plan','Project charter','Enterprise environmental factors','Organizational process assets'], 185);
 	createITTOCard('tools', 'Cost', 'Plan Cost Management', ['Expert judgment','Analytical techniques','Meetings'], 185);
 	createITTOCard('outputs', 'Cost', 'Plan Cost Management', ['Cost management plan'], 185);
@@ -1086,7 +1084,7 @@ function createPMBOKProcesses()
 
 
 	/* QUALITY */
-	/*
+	
 	createITTOCard('inputs', 'Quality', 'Plan Quality Management', ['Project management plan', 'Stakeholder register', 'Risk register', 'Requirements documentation', 'Enterprise environmental factors', 'Organizational process assets'], 231);
 	createITTOCard('tools', 'Quality', 'Plan Quality Management', ['Cost-benefit analysis', 'Cost of quality', 'Seven basic quality tools', 'Benchmarking', 'Design of experiments', 'Statistical sampling', 'Additional quality planning tools', 'Meetings'], 231);
 	createITTOCard('outputs', 'Quality', 'Plan Quality Management', ['Quality management plan', 'Process improvement plan', 'Quality metrics', 'Quality checklists', 'Project documents updates'], 231);
@@ -1100,7 +1098,7 @@ function createPMBOKProcesses()
 	createITTOCard('outputs', 'Quality', 'Control Quality', ['Quality control measurements', 'Validated changes', 'Verified deliverables', 'Work performance information ', 'Change requests ', 'Project management plan updates', 'Project documents updates', 'Organizational process assets updates'], 248);
 
 	/* HUMAN RESOURCES */
-	/*
+	
 	createITTOCard('inputs', 'HR', 'Plan Human Resource Management', ['Project management plan', 'Activity resource requirements', 'Enterprise environmental factors', 'Organizational process assets'], 258);
 	createITTOCard('tools', 'HR', 'Plan Human Resource Management', ['Organization charts and position descriptions', 'Networking', 'Organizational theory', 'Expert judgment', 'Meetings'], 258);
 	createITTOCard('outputs', 'HR', 'Plan Human Resource Management', ['Human resource management plan'], 258);
@@ -1117,7 +1115,7 @@ function createPMBOKProcesses()
 	createITTOCard('outputs', 'HR', 'Manage Project Team', ['Change requests', 'Project management plan updates', 'Project documents updates', 'Enterprise environmental factors updates', 'Organizational process assets updates'], 279);
 
 	/* COMMUNICATION */
-	/*
+	
 	createITTOCard('inputs', 'Communication', 'Plan Communications Management', ['Project management plan', 'Stakeholder register', 'Enterprise environmental factors', 'Organizational process assets'], 289);
 	createITTOCard('tools', 'Communication', 'Plan Communications Management', ['Communication requirements analysis', 'Communication technology', 'Communication models', 'Communication methods', 'Meetings'], 289);
 	createITTOCard('outputs', 'Communication', 'Plan Communications Management', ['Communications management plan', 'Project documents updates'], 289);
@@ -1133,7 +1131,7 @@ function createPMBOKProcesses()
 
 	/* RISK */
 
-/*
+
 	createITTOCard('inputs', 'Risk', 'Plan Risk Management', ['Project management plan', 'Project charter', 'Stakeholder register', 'Enterprise environmental factors', 'Organizational process assets'], 313);
 	createITTOCard('tools', 'Risk', 'Plan Risk Management', ['Analytical techniques', 'Expert judgment', 'Meetings'], 313);
 	createITTOCard('outputs', 'Risk', 'Plan Risk Management', ['Risk management plan'], 313);
@@ -1161,7 +1159,7 @@ function createPMBOKProcesses()
 
 	/* PROCUREMENT */
 
-/*
+
 	createITTOCard('inputs', 'Procurement', 'Plan Procurement Management', ['Project management plan', 'Requirements documentation', 'Risk register', 'Activity resource requirements', 'Project schedule', 'Activity cost estimates', 'Stakeholder register', 'Enterprise environmental factors', 'Organizational process assets'], 358);
 	createITTOCard('tools', 'Procurement', 'Plan Procurement Management', ['Make-or-buy analysis', 'Expert judgment', 'Market research', 'Meetings'], 358);
 	createITTOCard('outputs', 'Procurement', 'Plan Procurement Management', ['Procurement management plan', 'Procurement statement of work', 'Procurement documents', 'Source selection criteria', 'Make-or-buy decisions', 'Change requests', 'Project documents updates'], 358);
@@ -1182,7 +1180,7 @@ function createPMBOKProcesses()
 
 	/* STAKEHOLDER */
 
-/*
+
 	createITTOCard('inputs', 'Stakeholder', 'Identify Stakeholders', ['Project charter', 'Procurement documents', 'Enterprise environmental factors', 'Organizational process assets'], 393);
 	createITTOCard('tools', 'Stakeholder', 'Identify Stakeholders', ['Stakeholder analysis', 'Expert judgment', 'Meetings'], 393);
 	createITTOCard('outputs', 'Stakeholder', 'Identify Stakeholders', ['Stakeholder register'], 393);
@@ -1198,7 +1196,7 @@ function createPMBOKProcesses()
 	createITTOCard('inputs', 'Stakeholder', 'Control Stakeholder Engagement', ['Project management plan', 'Issue log', 'Work performance data', 'Project documents'], 409);
 	createITTOCard('tools', 'Stakeholder', 'Control Stakeholder Engagement', ['Information management systems', 'Expert judgment', 'Meetings'], 409);
 	createITTOCard('outputs', 'Stakeholder', 'Control Stakeholder Engagement', ['Work performance information', 'Change requests', 'Project management plan updates', 'Project documents updates', 'Organizational process assets updates'], 409);
-*/
+
 
 }
 
