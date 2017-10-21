@@ -704,7 +704,7 @@ button.close {
 
 
 .swipedOutCard {
-    -webkit-animation: swipedOutCardAnimation 1s ease;
+    -webkit-animation: swipedOutCardAnimation 1s linear;
 }
 
 

@@ -4,10 +4,12 @@ var CURRENT_VERSION = '0.0.9';
 
 
 var lastClickedObject = null;
-var currentDeck = [];
-var currentEvaluationTags = [];
+var gCurrentDeck = [];
+var gCurrentEvaluationTags = [];
 var NB_QUESTION_PER_ROUND = 10;
-var cuurentQuestionNb = 0;
+var gCurrentQuestionNb = 0;
+
+var gCardCollection = null;
 
 var gBucketScore = { 0 : 0, 1 : 1, 2 : 2, 3 : 10, 4 : 60, 5 : 300, 6 : 1440, 7 : 7200, 8 : 36000 };
 
@@ -150,12 +152,12 @@ function clickPerformed(evt)
 	}
 	else if (lastClickedObject.is("a.ui-collapsible-heading-toggle.ui-btn.ui-icon-plus.ui-btn-icon-left.ui-btn-inherit"))
 	{
-		currentEvaluationTags = [$(lastClickedObject).data("source")];
+		gCurrentEvaluationTags = [$(lastClickedObject).data("source")];
 		startEvaluation();
 	}
 	else if (lastClickedObject.is("div.card-tag-caption"))
 	{
-		currentEvaluationTags = [$(lastClickedObject).data("source")];
+		gCurrentEvaluationTags = [$(lastClickedObject).data("source")];
 		startEvaluation();
 	}
 	else if (lastClickedObject.is("div.btn-expand-card"))
@@ -286,14 +288,14 @@ function startEvaluation()
 {
 	toCard();
 
-	cuurentQuestionNb = 0;
+	gCurrentQuestionNb = 0;
 
-	var cardCollec = new CardCollection(currentEvaluationTags);
-	currentDeck = cardCollec.getCards(NB_QUESTION_PER_ROUND);
+	gCardCollection = new CardCollection(gCurrentEvaluationTags);
+	gCurrentDeck = gCardCollection.getCards(NB_QUESTION_PER_ROUND);
 
-	if (currentDeck.length !== 0)
+	if (gCurrentDeck.length !== 0)
 	{
-		var card = currentDeck[0];
+		var card = gCurrentDeck[0];
 		$('#project-calendar').html(htmlFromCard(card));
 	}
 
@@ -302,13 +304,13 @@ function startEvaluation()
 
 function nextQuestion()
 {
-	cuurentQuestionNb++;
-	if (cuurentQuestionNb ===  NB_QUESTION_PER_ROUND || cuurentQuestionNb === currentDeck.length )
+	gCurrentQuestionNb++;
+	if (gCurrentQuestionNb ===  NB_QUESTION_PER_ROUND || gCurrentQuestionNb === gCurrentDeck.length )
 	{
 		startEvaluation();
 	}
 
-	var card = currentDeck[cuurentQuestionNb];
+	var card = gCurrentDeck[gCurrentQuestionNb];
 
 	$('.task-card').addClass('swipedOutCard');
 
@@ -318,13 +320,13 @@ function nextQuestion()
 				$('.swipedOutCard').remove();
 				saveAll();
 			 }
-	, 1000);
+	, 1500);
 
 	setTimeout(
 		function() { 
 				$('#project-calendar').prepend(htmlFromCard(card));
 			}
-	, 5);
+	, 30);
 	
 }
 
@@ -870,6 +872,18 @@ class CardCollection
 	}
 
 
+	fetchAverageScore()
+	{
+		var score = 0;
+		for (var i = 0; this._cards.length > i; i++)
+		{
+			score += this._cards[i]._lastBucketIndex;
+		}
+
+		return Math.round(score / this._cards.length);
+	}
+
+
 }
 
 
@@ -938,6 +952,9 @@ function htmlFromCard(card)
 				</div>
 
 				<div class="circular-progress"><div class="c100 p{6} small ">    <span data-from="0" data-to="{6}" class="project-progress">{7}</span>    <div class="slice">        <div class="bar"></div>        <div class="fill"></div>    </div></div><h3>card score</h3></div>
+
+				<div class="circular-progress"><div class="c100 p{8} small ">    <span data-from="0" data-to="{8}" class="project-progress">{9}</span>    <div class="slice">        <div class="bar"></div>        <div class="fill"></div>    </div></div><h3>set score</h3></div>
+
 				<div class="card-footer">
 					
 					<div class="card-bottom-btn-container">
@@ -957,6 +974,9 @@ function htmlFromCard(card)
 	`;
 
 
+
+	var avgScore = gCardCollection.fetchAverageScore();
+
 	return String.format(
 		html,
 		card.id(),
@@ -966,7 +986,9 @@ function htmlFromCard(card)
 		card.getTags()[1],
 		card.getImage(),
 		cardScore[card._lastBucketIndex].toString(),
-		scoreLabel[card._lastBucketIndex]
+		scoreLabel[card._lastBucketIndex],
+		cardScore[avgScore].toString(),
+		scoreLabel[avgScore]
 	);
 }
 
