@@ -689,32 +689,38 @@ button.close {
 
 
 .swipedInCard {
-    -webkit-animation: swipedInCardAnimation 0.7s ease;
+    -webkit-animation: swipedInCardAnimation 2s ease;
 }
 
 
 @-webkit-keyframes swipedInCardAnimation {
     0% {
-        margin-top: -700px;
+        top: -700px;
     }
     100% {
-        margin-top: 60px;
+        top: 60px;
     }
 }
 
 
 .swipedOutCard {
-    -webkit-animation: swipedOutCardAnimation 1s linear;
+    -webkit-animation: swipedOutCardAnimation 1.8s linear;
 }
 
 
 @-webkit-keyframes swipedOutCardAnimation {
     0% {
         opacity: 1;
+        top: 60px;
     }
+    70% {
+        opacity: 0;
+        top: 800px;
+    } 
     100% {
         opacity: 0;
-    }
+        top: 1000px;
+    }   
 }
 
 

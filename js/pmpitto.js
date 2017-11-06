@@ -1,12 +1,12 @@
 "use strict";
 
-var CURRENT_VERSION = '0.0.9';
+var CURRENT_VERSION = '0.0.8';
 
 
 var lastClickedObject = null;
 var gCurrentDeck = [];
 var gCurrentEvaluationTags = [];
-var NB_QUESTION_PER_ROUND = 10;
+var NB_QUESTION_PER_ROUND = 6;
 var gCurrentQuestionNb = 0;
 
 var gCardCollection = null;
@@ -97,7 +97,16 @@ function initService()
 		createPMBOKProcesses();
 	}
 
+	NB_QUESTION_PER_ROUND = Number(localStorage.getItem(app_id + ".nbquestion"));
+
 	localStorage.setItem(app_id + ".version", CURRENT_VERSION);
+
+	if (typeof(NB_QUESTION_PER_ROUND) === "undefined" || NB_QUESTION_PER_ROUND === null  || NB_QUESTION_PER_ROUND < 6)
+	{
+		NB_QUESTION_PER_ROUND = 6;
+	}
+	localStorage.setItem(app_id + ".nbquestion", NB_QUESTION_PER_ROUND.toString());
+
 	create();
 }
 
@@ -122,8 +131,8 @@ function initUI()
 	$("select#theme-popover-combo").change(
 		function()
 		{
-			applyTheme($("select#theme-popover-combo").val());
-			$("div#theme-popover").addClass("ui-screen-hidden");
+			NB_QUESTION_PER_ROUND = Number($("select#theme-popover-combo").val());
+			localStorage.setItem(app_id + ".nbquestion", NB_QUESTION_PER_ROUND.toString());
 		}
 	);
 
@@ -144,9 +153,13 @@ function clickPerformed(evt)
 {
 	lastClickedObject = $(evt.target);
 
-	
-
-	if (lastClickedObject.is("a.icon.icon-bars.pull-left"))
+	// settings
+	if (lastClickedObject.is(".btn-settings"))
+	{
+		$("div#theme-popover").toggleClass("ui-screen-hidden");
+		$("select#theme-popover-combo").val(localStorage.getItem(app_id + ".nbquestion"));
+	}
+	else if (lastClickedObject.is("a.icon.icon-bars.pull-left"))
 	{
 		backHome();
 	}
@@ -320,7 +333,7 @@ function nextQuestion()
 				$('.swipedOutCard').remove();
 				saveAll();
 			 }
-	, 1500);
+	, 1490);
 
 	setTimeout(
 		function() { 
