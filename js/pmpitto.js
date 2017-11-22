@@ -867,6 +867,10 @@ function compareCards(a, b)
 {
 	if (b.getBucketIndex() > a.getBucketIndex()) { return -1; }
 	if (a.getBucketIndex() > b.getBucketIndex()) { return 1; }
+
+	if (b._lastBucketIndex > a._lastBucketIndex) { return -1; }
+	if (a._lastBucketIndex > b._lastBucketIndex) { return 1; }
+
 	return 0;
 }
 
