@@ -340,6 +340,13 @@ function nextQuestion()
 				$('#project-calendar').prepend(htmlFromCard(card));
 			}
 	, 30);
+
+
+	setTimeout(
+		function() { 
+				saveAll();
+			 }
+	, 3500);
 	
 }
 
@@ -347,6 +354,7 @@ function nextQuestion()
 
 function create()
 {
+	testInsert('All knowledge areas', 'pmbok_5th Ed');
 	testInsert('Integration management', 'Integration');
 	testInsert('Scope management', 'Scope');
 	testInsert('Time management', 'Time');
@@ -844,6 +852,12 @@ function cardFiltering(tagIdList)
 		}
 	}
 
+	for (let i = result.length; i; i--) 
+    {
+        let j = Math.floor(Math.random() * i);
+        [result[i - 1], result[j]] = [result[j], result[i - 1]];
+    }
+
 	return result;
 }
 
@@ -1234,6 +1248,8 @@ function createPMBOKProcesses()
 
 
 }
+
+
 
 
 
