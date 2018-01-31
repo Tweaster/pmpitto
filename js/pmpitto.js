@@ -354,7 +354,7 @@ function nextQuestion()
 
 function create()
 {
-	testInsert('All knowledge areas', 'pmbok_5th Ed');
+	testInsert('All knowledge areas', 'pmbok_6th Ed');
 	testInsert('Integration management', 'Integration');
 	testInsert('Scope management', 'Scope');
 	testInsert('Time management', 'Time');
@@ -520,7 +520,7 @@ class Card
 			this._verso = verso;
 			this._tags = [];
 			this._img = '../images/def.png';
-			this.addTag('pmbok 5th Ed');
+			this.addTag('pmbok 6th Ed');
 			this._score = -1;
 			this._lastEval = -1;
 			this._lastBucketIndex = 1;
@@ -922,14 +922,29 @@ class CardCollection
 function createITTOCard(type, caption, processCaption, versoList, pageNb)
 {
 	var typeStr = (type === 'inputs') ? 'inputs' : ((type === 'outputs') ? 'outputs' : 'tools & techniques');
-	var q = 'Please provide the **' + typeStr + '** for the **' + processCaption + '** process found in the **' + caption + ' management** knowledge area of the PMBOK (Project Management Body Of Knowledge 5th Edition - p'+ pageNb.toString() +').';
+	var q = 'Please provide the **' + typeStr + '** for the **' + processCaption + '** process found in the **' + caption + ' management** knowledge area of the PMBOK (Project Management Body Of Knowledge 6th Edition - p'+ pageNb.toString() +').';
 	var answer = '####' + processCaption + '####\n\nThe **' + typeStr + '** for the **' + processCaption + '** process are {0}';
 
 
 	var l = '\n\n';
+
+
 	for (var i = 0; i < versoList.length; i++)
 	{
-		l += (i + 1).toString() + '.  ' + versoList[i] + '\n' ;
+		var item = versoList[i];
+
+		if (typeof(item) === 'string')
+		{
+			l += (i + 1).toString() + '.  **' + versoList[i] + '**\n' ;
+		}
+		else
+		{
+			l += (i + 1).toString() + '.  ' + item[0] + '\n' ;
+			for (var j = 1; j < item.length; j++)
+			{
+				l += '   * ' + item[j] + '\n' ;
+			}
+		}
 	}
 
 	var card = new Card(caption + ' management', q, String.format(answer, l));
@@ -1030,225 +1045,233 @@ function createPMBOKProcesses()
 
 	/* INTEGRATION */
 
-	createITTOCard('inputs', 'Integration', 'Develop Project Charter', ['Project statement of work', 'Business case', 'Agreements', 'Enterprise environmental factors', 'Organizational process assets'], 66);
-	createITTOCard('tools', 'Integration', 'Develop Project Charter', ['Expert judgment', 'Facilitation techniques'], 66);
-	createITTOCard('outputs', 'Integration', 'Develop Project Charter', ['Project charter'], 66);
+	createITTOCard('inputs', 'Integration', 'Develop Project Charter', [['Business documents', 'Business case', 'Benefits management plan'], 'Agreements', 'Enterprise environmental factors', 'Organizational process assets'], 75);
+	createITTOCard('tools', 'Integration', 'Develop Project Charter', ['Expert judgment', ['Data gathering', 'Brainstorming', 'Focus groups', 'Interviews'], ['Interpersonal and team skills', 'Conflict management', 'Meeting management'], 'Meetings'], 75);
+	createITTOCard('outputs', 'Integration', 'Develop Project Charter', ['Project charter', 'Assumption log'], 75);
 
-	createITTOCard('inputs', 'Integration', 'Develop Project Management Plan', ['Project charter', 'Outputs from other processes', 'Enterprise environmental factors', 'Organizational process assets'], 72);
-	createITTOCard('tools', 'Integration', 'Develop Project Management Plan', ['Expert judgment', 'Facilitation techniques'], 72);
-	createITTOCard('outputs', 'Integration', 'Develop Project Management Plan', ['Project management plan'], 72);
-
-
-	createITTOCard('inputs', 'Integration', 'Direct and Manage Project Work', ['Project management plan', 'Approved change requests', 'Enterprise environmental factors', 'Organizational process assets'], 79);
-	createITTOCard('tools', 'Integration', 'Direct and Manage Project Work', ['Expert judgment', 'Project management information system', 'Meetings'], 79);
-	createITTOCard('outputs', 'Integration', 'Direct and Manage Project Work', ['Deliverables', 'Work performance data', 'Change requests', 'Project management plan updates', 'Project documents updates'], 79);
+	createITTOCard('inputs', 'Integration', 'Develop Project Management Plan', ['Project charter', 'Outputs from other processes', 'Enterprise environmental factors', 'Organizational process assets'], 82);
+	createITTOCard('tools', 'Integration', 'Develop Project Management Plan', ['Expert judgment', ['Data gathering', 'Brainstorming', 'Checklists', 'Focus groups', 'Interviews'], ['Interpersonal and team skills', 'Conflict management', 'Facilitation', 'Meeting management'], 'Meetings'], 82);
+	createITTOCard('outputs', 'Integration', 'Develop Project Management Plan', ['Project management plan'], 82);
 
 
-	createITTOCard('inputs', 'Integration', 'Monitor and Control Project Work', ['Project management plan', 'Schedule forecasts', 'Cost forecasts', 'Validated changes', 'Work performance information', 'Enterprise environmental factors', 'Organizational process assets'], 86);
-	createITTOCard('tools', 'Integration', 'Monitor and Control Project Work', ['Expert judgment', 'Analytical techniques', 'Project management information system', 'Meetings'], 86);
-	createITTOCard('outputs', 'Integration', 'Monitor and Control Project Work', ['Change requests', 'Work performance reports', 'Project management plan updates', 'Project documents updates'], 86);
+	createITTOCard('inputs', 'Integration', 'Direct and Manage Project Work', [['Project management plan', 'Any component'], ['Project documents', 'Change log','Lessons learned register', 'Milestone list', 'Project communications', 'Project schedule', 'Requirements traceability matrix', 'Risk register', 'Risk report'], 'Approved change requests', 'Enterprise environmental factors', 'Organizational process assets'], 90);
+	createITTOCard('tools', 'Integration', 'Direct and Manage Project Work', ['Expert judgment', 'Project management information system', 'Meetings'], 90);
+	createITTOCard('outputs', 'Integration', 'Direct and Manage Project Work', ['Deliverables', 'Work performance data', 'Change requests', ['Project management plan updates', 'Any component'], ['Project documents updates', 'Activity list', 'Assumption log', 'Lessons learned register', 'Requirements documentation', 'Risk register', 'Stakeholder register'], 'Organizational process assets updates'], 90);
 
-	createITTOCard('inputs', 'Integration', 'Perform Integrated Change Control', ['Project management plan', 'Work performance reports', 'Change requests', 'Enterprise environmental factors', 'Organizational process assets'], 94);
-	createITTOCard('tools', 'Integration', 'Perform Integrated Change Control', ['Expert judgment', 'Meetings', 'Change control tools'], 94);
-	createITTOCard('outputs', 'Integration', 'Perform Integrated Change Control', ['Approved change requests', 'Change log', 'Project management plan updates', 'Project documents updates'], 94);
+	createITTOCard('inputs', 'Integration', 'Manage Project Knowledge', [['Project management plan', 'All components'], ['Project documents', 'Lessons learned register', 'Project team assignments', 'Resource breakdown structure', 'Source selection criteria', 'Stakeholder register'], 'Deliverables', 'Enterprise environmental factors', 'Organizational process assets'], 98);
+	createITTOCard('tools', 'Integration', 'Manage Project Knowledge', ['Expert judgment', 'Knowledge management', 'Information management', ['Interpersonal and team skills', 'Active listening', 'Facilitation', 'Leadership', 'Networking', 'Political awareness']], 98);
+	createITTOCard('outputs', 'Integration', 'Manage Project Knowledge', ['Lessons learned register', ['Project management plan updates', 'Any component'], 'Organizational process assets updates'], 98);
 
-	createITTOCard('inputs', 'Integration', 'Close Project or Phase', ['Project management plan', 'Accepted deliverables', 'Organizational process assets'], 100);
-	createITTOCard('tools', 'Integration', 'Close Project or Phase', ['Expert judgment', 'Analytical techniques', 'Meetings'], 100);
-	createITTOCard('outputs', 'Integration', 'Close Project or Phase', ['Final product, service, or result transition', 'Organizational process assets updates'], 100);
+
+	createITTOCard('inputs', 'Integration', 'Monitor and Control Project Work', [['Project management plan', 'Any component'], ['Project dcuments', 'Assumption log','Basis of estimates', 'Cost forecasts', 'Issue log', 'Lessons learned register', 'Milestone list', 'Quality reports', 'Risk register', 'Risk report', 'Schedule forecasts'], 'Work performance information', 'Agreements','Enterprise environmental factors', 'Organizational process assets'], 105);
+	createITTOCard('tools', 'Integration', 'Monitor and Control Project Work', ['Expert judgment', ['Data analysis', 'Alternative analysis', 'Cost-benefit analysis', 'Earned value analysis', 'root cause analysis'], 'Decision making', 'Meetings'], 105);
+	createITTOCard('outputs', 'Integration', 'Monitor and Control Project Work', ['Work performance reports', 'Change requests', ['Project management plan updates', 'Any component'], ['Project documents updates, Cost forecasts', 'Issue log', 'Lessons learned register', 'Risk register', 'Schedule forecasts']], 105);
+
+	createITTOCard('inputs', 'Integration', 'Perform Integrated Change Control', [['Project management plan', 'Change management plan', 'Configuration management plan', 'Scope baseline', 'Schedule baseline', 'Cost baseline'], ['Project documents', 'Basis of estimates', 'Requirements traceability matrix', 'Risk report'],'Work performance reports', 'Change requests', 'Enterprise environmental factors', 'Organizational process assets'], 113);
+	createITTOCard('tools', 'Integration', 'Perform Integrated Change Control', ['Expert judgment', 'Change control tools', ['Data analysis', 'Alternative analysis', 'Cost-benefit analysis'],['Decision making', 'Voting', 'Autocratic decision making', 'Multicriteria decision analysis'], 'Meetings'], 113);
+	createITTOCard('outputs', 'Integration', 'Perform Integrated Change Control', ['Approved change requests', ['Project management plan updates', 'Any component'], ['Project documents updates', 'Change log']], 113);
+
+	createITTOCard('inputs', 'Integration', 'Close Project or Phase', ['Project charter', ['Project management plan' , 'All component'], ['Project documents', 'Assumption log', 'Basis of estimates', 'Change log', 'Issue log','Lessons learned register', 'Milestone list', 'Project communications', 'Quality control measurements', 'Requirements documentation', 'Risk register', 'Risk report'], 'Accepted deliverables', ['Business documents', 'Business case', 'Benefits management plan'], 'Agreements', 'Procurement documentation', 'Organizational process assets'], 121);
+	createITTOCard('tools', 'Integration', 'Close Project or Phase', ['Expert judgment', ['Data analysis', 'Document analysis', 'Regression analysis', 'Trend analysis', 'Variance analysis'], 'Meetings'], 121);
+	createITTOCard('outputs', 'Integration', 'Close Project or Phase', [['Project documents updates', 'Lessons learned register'],'Final product, service, or result transition', 'Final report', 'Organizational process assets updates'], 121);
 
 
 	/* SCOPE */
 
 	
-	createITTOCard('inputs', 'Scope', 'plan scope management', ['Project management plan','Project charter','Enterprise environmental factors','Organizational process assets'], 106);
-	createITTOCard('tools', 'Scope', 'plan scope management', ['Expert judgment','Meetings'], 106);
-	createITTOCard('outputs', 'Scope', 'plan scope management', ['Scope management plan','Requirements management plan'], 106);
+	createITTOCard('inputs', 'Scope', 'plan scope management', ['Project charter', ['Project management plan', 'Quality management plan', 'Project life cycle description', 'Development approach'], 'Enterprise environmental factors','Organizational process assets'], 134);
+	createITTOCard('tools', 'Scope', 'plan scope management', ['Expert judgment',['Data analysis', 'Alternative analysis'], 'Meetings'], 134);
+	createITTOCard('outputs', 'Scope', 'plan scope management', ['Scope management plan','Requirements management plan'], 134);
 
-	createITTOCard('inputs', 'Scope', 'collect requirements', ['Scope management plan','Requirements management plan','Stakeholder management plan','Project charter','Stakeholder register'], 110);
-	createITTOCard('tools', 'Scope', 'collect requirements', ['Interviews','Focus groups','Facilitated workshops','Group creativity techniques','Group decision-making techniques','Questionnaires and surveys','Observations','Prototypes','Benchmarking','Context diagrams','Document analysis'], 110);
-	createITTOCard('outputs', 'Scope', 'collect requirements', ['Requirements documentation','Requirements traceability matrix'], 110);
+	createITTOCard('inputs', 'Scope', 'collect requirements', ['Project Charter',['Project management plan', 'Scope management plan','Requirements management plan','Stakeholder engagement plan'],['Project documents', 'Assumption log', 'Lessons learned register', 'Stakeholder register'], ['Business documents', 'Business case'], 'Agreements', 'Enterprise environmental factors', 'Organizational process assets'], 138);
+	createITTOCard('tools', 'Scope', 'collect requirements', ['Expert judgment', ['Data gathering', 'Brainstorming', 'Interviews', 'Focus groups', 'Questionnaires and surveys', 'Benchmarking'], ['Data analysis', 'Document analysis'], ['Decision making', 'Voting', 'Multicriteria decision analysis'], ['Data representation', 'Affinity diagrams', 'Mind mapping'], ['Interpersonal and team skills', 'Nominal group technique', 'Observation/conversation', 'Facilitation'], 'Context diagram', 'Prototypes'], 138);
+	createITTOCard('outputs', 'Scope', 'collect requirements', ['Requirements documentation','Requirements traceability matrix'], 138);
 
-	createITTOCard('inputs', 'Scope', 'define Scope', ['Scope management plan','Project charter','Requirements documentation','Organizational process assets'], 120);
-	createITTOCard('tools', 'Scope', 'define Scope', ['Expert judgment','Product analysis','Alternatives generation','Facilitated workshops'], 120);
-	createITTOCard('outputs', 'Scope', 'define Scope', ['Project scope statement','Project documents updates'], 120);
+	createITTOCard('inputs', 'Scope', 'define Scope', ['Project charter', ['Project management plan', 'Scope management plan'], ['Project documents', 'Assumption log', 'Requirements documentation', 'Risk register'], 'Enterprise environmental factors', 'Organizational process assets'], 150);
+	createITTOCard('tools', 'Scope', 'define Scope', ['Expert judgment',['Data analysis','Alternatives analysis'],['Decision making', 'Multicriteria decision analysis'], ['Interpersonal and team skills', 'Facilitation'], 'Product analysis'], 150);
+	createITTOCard('outputs', 'Scope', 'define Scope', ['Project scope statement',['Project documents updates', 'Assumption log', 'Requirements documentation', 'Requirements traceability matrix', 'Stakeholder register']], 150);
 
-	createITTOCard('inputs', 'Scope', 'create WBS', ['Scope management plan','Project scope statement','Requirements documentation','Enterprise environmental factors','Organizational process assets'], 125);
-	createITTOCard('tools', 'Scope', 'create WBS', ['Decomposition','Expert judgment'], 125);
-	createITTOCard('outputs', 'Scope', 'create WBS', ['Scope baseline','Project documents updates'], 125);
+	createITTOCard('inputs', 'Scope', 'create WBS', [['Project management plan','Scope management plan'], ['Project documents', 'Project scope statement','Requirements documentation'],'Enterprise environmental factors','Organizational process assets'], 156);
+	createITTOCard('tools', 'Scope', 'create WBS', ['Decomposition','Expert judgment'], 156);
+	createITTOCard('outputs', 'Scope', 'create WBS', ['Scope baseline',['Project documents updates', 'Assumption log', 'Requirements documentation']], 156);
 
-	createITTOCard('inputs', 'Scope', 'Validate Scope', ['Project management plan','Requirements documentation','Requirements traceability matrix','Verified deliverables','Work performance data'], 133);
-	createITTOCard('tools', 'Scope', 'Validate Scope', ['Inspection','Group decision-making techniques'], 133);
-	createITTOCard('outputs', 'Scope', 'Validate Scope', ['Accepted deliverables','Change requests','Work performance information','Project documents updates'], 133);
+	createITTOCard('inputs', 'Scope', 'Validate Scope', [['Project management plan', 'Scope management plan', 'Requirements management plan', 'Scope baseline'],['Project documents', 'Lessons learned register', 'Quality reports','Requirements documentation','Requirements traceability matrix'],'Verified deliverables','Work performance data'], 163);
+	createITTOCard('tools', 'Scope', 'Validate Scope', ['Inspection',['Decision making', 'Voting']], 163);
+	createITTOCard('outputs', 'Scope', 'Validate Scope', ['Accepted deliverables','Change requests','Work performance information',['Project documents updates', 'Lessons learned register', 'Requirements documentation', 'Requirements traceability matrix']], 163);
 
-	createITTOCard('inputs', 'Scope', 'control Scope', ['Project management plan','Requirements documentation','Requirements traceability matrix','Work performance data','Organizational process assets'], 136);
-	createITTOCard('tools', 'Scope', 'control Scope', ['Variance analysis'], 136);
-	createITTOCard('outputs', 'Scope', 'control Scope', ['Work performance information','Change requests','Project management plan updates','Project documents updates','Organizational process assets updates'], 136);
+	createITTOCard('inputs', 'Scope', 'control Scope', [['Project management plan', 'Scope management plan', 'Requirements management plan', 'Change management plan', 'Configuration management plan', 'Scope baseline'],['Project documents', 'Lessons learned register', 'Requirements documentation','Requirements traceability matrix'],'Work performance data','Organizational process assets'], 167);
+	createITTOCard('tools', 'Scope', 'control Scope', [['Data analysis', 'Trend analysis', 'Variance analysis']], 167);
+	createITTOCard('outputs', 'Scope', 'control Scope', ['Work performance information','Change requests',['Project management plan updates', 'Scope management plan', 'Scope baseline', 'Schedule baseline', 'Cost baseline', 'Performance measurement baseline'],['Project documents updates', 'Lessons learned register', 'Requirements documentation', 'Requirements traceability matrix']], 167);
 
 
 	/*TIME */
-	createITTOCard('inputs', 'Time', 'Plan Schedule Management', ['Project management plan','Project charter','Enterprise environmental factors','Organizational process assets'], 145);
-	createITTOCard('tools', 'Time', 'Plan Schedule Management', ['Expert judgment','Analytical techniques', 'Meetings'], 145);
-	createITTOCard('outputs', 'Time', 'Plan Schedule Management', ['Schedule management plan'], 145);
+	createITTOCard('inputs', 'Time', 'Plan Schedule Management', ['Project charter', ['Project management plan', 'Scope management plan', 'Development approach'],'Enterprise environmental factors','Organizational process assets'], 179);
+	createITTOCard('tools', 'Time', 'Plan Schedule Management', ['Expert judgment','Data analysis', 'Meetings'], 179);
+	createITTOCard('outputs', 'Time', 'Plan Schedule Management', ['Schedule management plan'], 179);
 
 
-	createITTOCard('inputs', 'Time', 'define Activities', ['Schedule management plan','Scope baseline','Enterprise environmental factors','Organizational process assets'], 149);
-	createITTOCard('tools', 'Time', 'define Activities', ['Decomposition','Rolling wave planning','Expert judgment'], 149);
-	createITTOCard('outputs', 'Time', 'define Activities', ['Activity list','Activity attributes','Milestone list'], 149);
+	createITTOCard('inputs', 'Time', 'define Activities', [['Project management plan', 'Schedule management plan','Scope baseline'],'Enterprise environmental factors','Organizational process assets'], 183);
+	createITTOCard('tools', 'Time', 'define Activities', ['Decomposition','Rolling wave planning','Expert judgment', 'Meetings'], 183);
+	createITTOCard('outputs', 'Time', 'define Activities', ['Activity list','Activity attributes','Milestone list', 'Change requests', ['Project management plan updates', 'Schedule baseline', 'Cost baseline']], 183);
 
-	createITTOCard('inputs', 'Time', 'Sequence Activities', [' Schedule management plan','Activity list','Activity attributes','Milestone list','Project scope statement','Enterprise environmental factors','Organizational process assets'], 153);
-	createITTOCard('tools', 'Time', 'Sequence Activities', ['Precedence diagramming method (PDM)','Dependency determination','Leads and lags'], 153);
-	createITTOCard('outputs', 'Time', 'Sequence Activities', ['Project schedule network diagrams','Project documents updates'], 153);
+	createITTOCard('inputs', 'Time', 'Sequence Activities', [['Project management plan', 'Schedule management plan', 'Scope baseline'], ['Project documents', 'Activity list','Activity attributes','Milestone list', 'Assumption log'],'Enterprise environmental factors','Organizational process assets'], 187);
+	createITTOCard('tools', 'Time', 'Sequence Activities', ['Precedence diagramming method (PDM)','Dependency determination','Leads and lags', 'Project management information systems'], 187);
+	createITTOCard('outputs', 'Time', 'Sequence Activities', ['Project schedule network diagrams',['Project documents updates', 'Activity list', 'Activity attributes', 'Milestone list', 'Assumption log']], 187);
 
-	createITTOCard('inputs', 'Time', 'Estimate Activity resources', ['Schedule management plan','Activity list','Activity attributes','Resource calendars','Risk register','Activity cost estimates','Enterprise environmental factors','Organizational process assets'], 160);
-	createITTOCard('tools', 'Time', 'Estimate Activity resources', ['Expert judgment','Alternative analysis','Published estimating data','Bottom-up estimating','Project management software'], 160);
-	createITTOCard('outputs', 'Time', 'Estimate Activity resources', ['Activity resource requirements','Resource breakdown structure','Project documents updates'], 160);
+	createITTOCard('inputs', 'Time', 'Estimate Activity durations', [['Project management plan', 'Schedule management plan', 'Scope baseline'], ['Project documents', 'Activity list','Activity attributes', 'Milestone list', 'Assumption log', 'Lessons learned register', 'Project team assignments', 'Resource calendars','Resource requirements','Resource breakdown structure', 'Risk register'],'Enterprise environmental factors','Organizational process assets'], 195);
+	createITTOCard('tools', 'Time', 'Estimate Activity durations', ['Expert judgment','Analogous estimating','Parametric estimating','Three-point estimating','Bottom-up estimating', ['Data analysis', 'Alternative analysis', 'Reserve analysis'], 'Decision making', 'Meetings'], 195);
+	createITTOCard('outputs', 'Time', 'Estimate Activity durations', ['Duration estimates', 'Basis of estimates', ['Project documents updates', 'Activity attributes', 'Assumption log', 'Lessons learned register']], 195);
 
-	createITTOCard('inputs', 'Time', 'Estimate Activity durations', ['Schedule management plan','Activity list','Activity attributes','Activity resource requirements','Resource calendars','Project scope statement','Risk register','Resource breakdown structure','Enterprise environmental factors','Organizational process assets'], 165);
-	createITTOCard('tools', 'Time', 'Estimate Activity durations', ['Expert judgment','Analogous estimating','Parametric estimating','Three-point estimating','Group decision-making techniques','Reserve analysis'], 165);
-	createITTOCard('outputs', 'Time', 'Estimate Activity durations', ['Activity duration estimate','Project documents updates'], 165);
-
-	createITTOCard('inputs', 'Time', 'develop Schedule', ['Schedule management plan','Activity list','Activity attributes','Project schedule network diagrams','Activity resource requirements','Resource calendars','Activity duration estimates','Project scope statement','Risk register','Project staff assignments','Resource breakdown structure','Enterprise environmental factors','Organizational process assets'], 172);
-	createITTOCard('tools', 'Time', 'develop Schedule', ['Schedule network analysis','Critical path method','Critical chain method','Resource optimization techniques','Modeling techniques','Leads and lags','Schedule compression','Scheduling tool'], 172);
-	createITTOCard('outputs', 'Time', 'develop Schedule', ['Schedule baseline','Project schedule','Schedule data','Project calendars','Project management plan updates','Project documents updates'], 172);
+	createITTOCard('inputs', 'Time', 'develop Schedule', [['Project management plan', 'Schedule management plan', 'Scope baseline'],['Project documents', 'Activity list','Activity attributes', 'Milestone list', 'Assumption log', 'Basis of estimates', 'Duration estimates', 'Lessons learned register', 'Project schedule network diagrams', 'Project team assignments', 'Resource calendars','Resource requirements', 'Risk register'],'Agreements', 'Enterprise environmental factors','Organizational process assets'], 205);
+	createITTOCard('tools', 'Time', 'develop Schedule', ['Schedule network analysis','Critical path method','Resource optimization techniques',['Data analysis', 'What-if scenario analysis', 'Simulation'],'Leads and lags','Schedule compression','Project management information system', 'Agile release planning'], 205);
+	createITTOCard('outputs', 'Time', 'develop Schedule', ['Schedule baseline','Project schedule','Schedule data','Project calendars', 'Change requests', ['Project management plan updates', 'Schedule management plan', 'Scope baseline'],['Project documents updates', 'Activity attributes', 'Assumption log', 'Duration estimates', 'Lessons learned register', 'Resource requirements', 'Risk register']], 205);
 
 	
-	createITTOCard('inputs', 'Time', 'control Schedule', ['Project management plan','Project schedule','Work performance data','Project calendars','Schedule data','Organizational process assets'], 185);
-	createITTOCard('tools', 'Time', 'control Schedule', ['Performance reviews','Project management software','Resource optimization techniques','Modeling techniques','Leads and lags','Schedule compression','Scheduling tool'], 185);
-	createITTOCard('outputs', 'Time', 'control Schedule', ['Work performance information', 'Schedule forecasts', 'Change requests','Project management plan updates','Project documents updates','Organizational process assets updates'], 185);
+	createITTOCard('inputs', 'Time', 'control Schedule', [['Project management plan', 'Schedule management plan', 'Schedule baseline', 'Scope baseline', 'Performance measurement baseline'],['Project documents', 'Lessons learned register', 'Project calendars', 'Project schedule', 'Resource calendars', 'Schedule data'],'Work performance data', 'Organizational process assets'], 222);
+	createITTOCard('tools', 'Time', 'control Schedule', [['Data analysis', 'Earned value analysis', 'Iteration burndown chart', 'Performance reviews', 'Trend analysis', 'Variance analysis', 'Waht-if scenario analysis'], 'Critical path method', 'Project management information system', 'Resource optimization','Leads and lags','Schedule compression'], 222);
+	createITTOCard('outputs', 'Time', 'control Schedule', ['Work performance information', 'Schedule forecasts', 'Change requests',['Project management plan updates', 'Schedule management plan', 'Schedule baseline', 'Cost baseline', 'Performance measurement baseline'],['Project documents updates', 'Assumption log', 'Basis of estimates', 'Lessons learned register', 'Project schedule', 'Resource calendars','Risk register', 'Schedule data']], 222);
 
 
 	/* COST */
 	
-	createITTOCard('inputs', 'Cost', 'Plan Cost Management', ['Project management plan','Project charter','Enterprise environmental factors','Organizational process assets'], 185);
-	createITTOCard('tools', 'Cost', 'Plan Cost Management', ['Expert judgment','Analytical techniques','Meetings'], 185);
-	createITTOCard('outputs', 'Cost', 'Plan Cost Management', ['Cost management plan'], 185);
+	createITTOCard('inputs', 'Cost', 'Plan Cost Management', ['Project charter', ['Project management plan', 'Schedule management plan', 'Risk management plan'],'Enterprise environmental factors','Organizational process assets'], 235);
+	createITTOCard('tools', 'Cost', 'Plan Cost Management', ['Expert judgment','Data analysis','Meetings'], 235);
+	createITTOCard('outputs', 'Cost', 'Plan Cost Management', ['Cost management plan'], 235);
 
-	createITTOCard('inputs', 'Cost', 'Estimate Costs', ['Cost management plan','Human resource management plan','Scope baseline','Project schedule','Risk register','Enterprise environmental factors','Organizational process assets'], 200);
-	createITTOCard('tools', 'Cost', 'Estimate Costs', ['Expert judgment', 'Analogous estimating', 'Parametric estimating', 'Bottom-up estimating', 'Three-point estimating', 'Reserve analysis', 'Cost of quality', 'Project management software', 'Vendor bid analysis', 'Group decision-making techniques'], 200);
-	createITTOCard('outputs', 'Cost', 'Estimate Costs', ['Activity cost estimates','Basis of estimates','Project documents updates'], 200);
+	createITTOCard('inputs', 'Cost', 'Estimate Costs', [['Project management plan', 'Cost management plan','Quality management plan', 'Scope baseline'],['Project documents', 'Lessons learned register','Project schedule', 'Resources requirements', 'Risk register'],'Enterprise environmental factors','Organizational process assets'], 240);
+	createITTOCard('tools', 'Cost', 'Estimate Costs', ['Expert judgment', 'Analogous estimating', 'Parametric estimating', 'Bottom-up estimating', 'Three-point estimating', ['Data analysis', 'Alternative analysis', 'Reserve analysis', 'Cost of quality'], 'Project management information system', ['Decision making', 'Voting']], 240);
+	createITTOCard('outputs', 'Cost', 'Estimate Costs', ['Activity cost estimates','Basis of estimates',['Project documents updates', 'Assumption log', 'Lessons learned register', 'Risk register']], 240);
 
-	createITTOCard('inputs', 'Cost', 'Determine Budget', ['Cost management plan', 'Scope baseline', 'Activity cost estimates', 'Basis of estimates', 'Project schedule', 'Resource calendars', 'Risk register', 'Agreements', 'Organizational process assets'], 208);
-	createITTOCard('tools', 'Cost', 'Determine Budget', ['Cost aggregation', 'Reserve analysis', 'Expert judgment', 'Historical relationships' ,'Funding limit reconciliation'], 208);
-	createITTOCard('outputs', 'Cost', 'Determine Budget', ['Cost baseline', 'Project funding requirements', 'Project documents updates'], 208);
+	createITTOCard('inputs', 'Cost', 'Determine Budget', [['Project management plan', 'Cost management plan', 'Resource management plan', 'Scope baseline'], ['Project documents', 'Cost estimates', 'Basis of estimates', 'Project schedule', 'Risk register'], ['Business documents', 'Business case', 'Benefits management plan'],'Agreements', 'Enterprise environmental factors','Organizational process assets'], 248);
+	createITTOCard('tools', 'Cost', 'Determine Budget', ['Cost aggregation', ['Data analysis','Reserve analysis'], 'Expert judgment', 'Historical information review' ,'Funding limit reconciliation', 'Financing'], 248);
+	createITTOCard('outputs', 'Cost', 'Determine Budget', ['Cost baseline', 'Project funding requirements', ['Project documents updates', 'Cost estmaites', 'Project schedule', 'Risk register']], 248);
 
-	createITTOCard('inputs', 'Cost', 'Control Cost', ['Project management plan', 'Project funding requirements', 'Work performance data', 'Organizational process assets'], 215);
-	createITTOCard('tools', 'Cost', 'Control Cost', ['Earned value management', 'Forecasting', 'To-complete performance index (TCPI)', 'Performance reviews', 'Project management software', 'Reserve analysis'], 215);
-	createITTOCard('outputs', 'Cost', 'Control Cost', ['Work performance information', 'Cost forecasts', 'Change requests','Project management plan updates','Project documents updates','Organizational process assets updates'], 215);
+	createITTOCard('inputs', 'Cost', 'Control Cost', [['Project management plan', 'Cost management plan', 'Cost baseline', 'Performance measurement baseline'], ['Project documents', 'Lessons learned register'], 'Project funding requirements', 'Work performance data', 'Organizational process assets'], 257);
+	createITTOCard('tools', 'Cost', 'Control Cost', ['Expert judgment', ['Data analysis', 'Earned value analysis', 'Trend analysis', 'Variance analysis', 'Reserve analysis'], 'To-complete performance index (TCPI)',  'Project management information system'], 257);
+	createITTOCard('outputs', 'Cost', 'Control Cost', ['Work performance information', 'Cost forecasts', 'Change requests',['Project management plan updates', 'Cost management plan', 'Cost baseline', 'Performance measurement baseline'],['Project documents updates', 'Assumption log', 'Basis of estimates', 'Cost estimates', 'Lessons learned register', 'Risk register']], 257);
 
 
 	/* QUALITY */
 	
-	createITTOCard('inputs', 'Quality', 'Plan Quality Management', ['Project management plan', 'Stakeholder register', 'Risk register', 'Requirements documentation', 'Enterprise environmental factors', 'Organizational process assets'], 231);
-	createITTOCard('tools', 'Quality', 'Plan Quality Management', ['Cost-benefit analysis', 'Cost of quality', 'Seven basic quality tools', 'Benchmarking', 'Design of experiments', 'Statistical sampling', 'Additional quality planning tools', 'Meetings'], 231);
-	createITTOCard('outputs', 'Quality', 'Plan Quality Management', ['Quality management plan', 'Process improvement plan', 'Quality metrics', 'Quality checklists', 'Project documents updates'], 231);
+	createITTOCard('inputs', 'Quality', 'Plan Quality Management', ['Project charter', ['Project management plan', 'Requirements management plan', 'Risk management plan', 'Stakeholder engagement plan', 'Scope baseline'], ['Project documents', 'Assumption log', 'Requirements traceability matrix', 'Stakeholder register', 'Risk register', 'Requirements documentation'], 'Enterprise environmental factors', 'Organizational process assets'], 277);
+	createITTOCard('tools', 'Quality', 'Plan Quality Management', ['Expert judgment',  ['Data gathering', 'Benchmarking', 'Brainstorming', 'Interviews'], ['Decision making', 'Multicriteria decision analysis'], ['Data representation', 'Flowcharts', 'Logical data model', 'Matrix diagrams', 'Mind mapping'], 'Test and Inspection planning', 'Meetings'], 277);
+	createITTOCard('outputs', 'Quality', 'Plan Quality Management', ['Quality management plan', 'Quality metrics',['Project management plan updates', 'Risk management plan', 'Scope baseline'], ['Project documents updates', 'Lessons learned register', 'Requirements traceability matrix'], 'Risk register', 'Stakeholder register'], 277);
 
-	createITTOCard('inputs', 'Quality', 'Perform Quality Assurance', ['Quality management plan', 'Process improvement plan', 'Quality metrics', 'Quality control measurements', 'Project documents'], 242);
-	createITTOCard('tools', 'Quality', 'Perform Quality Assurance', ['Quality management and control tools', 'Quality audits', 'Process analysis'], 242);
-	createITTOCard('outputs', 'Quality', 'Perform Quality Assurance', ['Change requests', 'Project management plan updates', 'Project documents updates', 'Organizational process assets updates'], 242);
+	createITTOCard('inputs', 'Quality', 'Manage Quality', [['Project management plan', 'Quality management plan'], ['Project documents', 'Lessons learned register',  'Quality metrics', 'Quality control measurements', 'Risk register'], 'Organizational process assets'], 288);
+	createITTOCard('tools', 'Quality', 'Manage Quality', [['Data gathering', 'Checklists'], ['Data analysis', 'Alternative analysis', 'Document analysis', 'Process analysis', 'Root cause analysis'], ['Decision making', 'Multicriteria decision analysis'], ['Data representation', 'Affinity diagrams', 'Cause-and-effect diagrams', 'Flowcharts', 'Histograms', 'Matrix diagrams','Scatter diagrams'], 'Audits', 'Design for X', 'Problem solving', 'Quality improvement methods'], 288);
+	createITTOCard('outputs', 'Quality', 'Manage Quality', ['Quality reports', 'Test and evaluation documents', 'Change requests', ['Project management plan updates', 'Quality management plan', 'Scope baseline', 'Schedule baseline', 'Cost baseline'], ['Project documents updates', 'Issue log', 'Lessons learned register', 'Risk register']], 288);
 
-	createITTOCard('inputs', 'Quality', 'Control Quality', ['Project management plan', 'Quality metrics', 'Quality checklists', 'Work performance data', 'Approved change requests', 'Deliverables', 'Project documents', 'Organizational process assets'], 248);
-	createITTOCard('tools', 'Quality', 'Control Quality', ['Seven basic quality tools', 'Statistical sampling', 'Inspection', 'Approved change requests review'], 248);
-	createITTOCard('outputs', 'Quality', 'Control Quality', ['Quality control measurements', 'Validated changes', 'Verified deliverables', 'Work performance information ', 'Change requests ', 'Project management plan updates', 'Project documents updates', 'Organizational process assets updates'], 248);
+	createITTOCard('inputs', 'Quality', 'Control Quality', [['Project management plan', 'Quality management plan'], ['Project documents', 'Lessons learned register', 'Quality metrics', 'Test and evaluation documents'],  'Work performance data', 'Approved change requests', 'Deliverables', 'Enterprise environmental factors', 'Organizational process assets'], 298);
+	createITTOCard('tools', 'Quality', 'Control Quality', ['Data gathering'], 298);
+	createITTOCard('outputs', 'Quality', 'Control Quality', ['Quality control measurements', 'Validated changes', 'Verified deliverables', 'Work performance information ', 'Change requests ', ['Project management plan updates', 'Quality management plan'], ['Project documents updates', 'Issue log', 'Lessons learned register', 'Risk register', 'Test and evaluation documents']], 298);
 
 	/* HUMAN RESOURCES */
 	
-	createITTOCard('inputs', 'HR', 'Plan Human Resource Management', ['Project management plan', 'Activity resource requirements', 'Enterprise environmental factors', 'Organizational process assets'], 258);
-	createITTOCard('tools', 'HR', 'Plan Human Resource Management', ['Organization charts and position descriptions', 'Networking', 'Organizational theory', 'Expert judgment', 'Meetings'], 258);
-	createITTOCard('outputs', 'HR', 'Plan Human Resource Management', ['Human resource management plan'], 258);
-	createITTOCard('inputs', 'HR', 'Acquire Project Team', ['Human resource management plan', 'Enterprise environmental factors', 'Organizational process assets'], 267);
-	createITTOCard('tools', 'HR', 'Acquire Project Team', ['Pre-assignment', 'Negotiation', 'Acquisition', 'Virtual teams', 'Multi-criteria decision analysis'], 267);
-	createITTOCard('outputs', 'HR', 'Acquire Project Team', ['Project staff assignments', 'Resource calendars', 'Project management plan updates'], 267);
+	createITTOCard('inputs', 'HR', 'Plan Human Resource Management', ['Project charter', ['Project management plan', 'Quality management plan', 'Scope baseline'], ['Project documents', 'Project schedule', 'Requirements documentation', 'Risk register', 'Stakeholder register'], 'Enterprise environmental factors', 'Organizational process assets'], 312);
+	createITTOCard('tools', 'HR', 'Plan Human Resource Management', ['Expert judgment', ['Data representation', 'Hierarchical charts', 'Responsibility assignment matrix', 'Text-oriented formats'], 'Organizational theory', 'Meetings'], 312);
+	createITTOCard('outputs', 'HR', 'Plan Human Resource Management', ['Resource management plan', 'Team charter', ['Project document updates', 'Assumption log', 'Risk register']], 312);
 
-	createITTOCard('inputs', 'HR', 'Develop Project Team', ['Human resource management plan', 'Project staff assignments', 'Resource calendars'], 273);
-	createITTOCard('tools', 'HR', 'Develop Project Team', ['Interpersonal skills', 'Training', 'Team-building activities', 'Ground rules', 'Colocation', 'Recognition and rewards', 'Personnel assessment tools'], 273);
-	createITTOCard('outputs', 'HR', 'Develop Project Team', ['Team performance assessments', 'Enterprise environmental factors updates'], 273);
+	createITTOCard('inputs', 'HR', 'Estimate Activity Resources', [['Project management plan', 'Resource management plan', 'Scope baseline'], ['Project documents', 'Activity attributes', 'Activity list', 'Risk register', 'Assumption log', 'Cost estimates', 'Resource estimates'], 'Enterprise environmental factors', 'Organizational process assets'], 321);
+	createITTOCard('tools', 'HR', 'Estimate Activity Resources', ['Expert judgment','Bottom-up estimating', 'Analogous estimating', 'Parametric estimating', ['Data analysis', 'Alternative analysis'], 'Project management information system', 'Meetings'], 321);
+	createITTOCard('outputs', 'HR', 'Estimate Activity Resources', ['Resource requirements', 'Basis of estimates', 'Resource breakdown structure', ['Project document updates', 'Activity attributes', 'Assumption log', 'Lessons learned register']], 321);
 
-	createITTOCard('inputs', 'HR', 'Manage Project Team', ['Human resource management plan', 'Project staff assignments', 'Team performance assessments', 'Issue log', 'Work performance reports', 'Organizational process assets'], 279);
-	createITTOCard('tools', 'HR', 'Manage Project Team', ['Observation and conversation', 'Project performance appraisals', 'Conflict management', 'Interpersonal skills'], 279);
-	createITTOCard('outputs', 'HR', 'Manage Project Team', ['Change requests', 'Project management plan updates', 'Project documents updates', 'Enterprise environmental factors updates', 'Organizational process assets updates'], 279);
+	createITTOCard('inputs', 'HR', 'Acquire Project Team', [['Project management plan', 'Resource management plan', 'Procurement management plan', 'Cost baseline'], ['Project documents', 'Project schedule', 'Resource calendars', 'Resource requirements', 'Stakeholder register'], 'Enterprise environmental factors', 'Organizational process assets'], 328);
+	createITTOCard('tools', 'HR', 'Acquire Project Team', ['Pre-assignment', ['Interpersonal and team skills', 'Negotiation'], 'Virtual teams', ['Decision making', 'Multicriteria decision analysis']], 328);
+	createITTOCard('outputs', 'HR', 'Acquire Project Team', ['Physical resource assignments', 'Project team assignments', 'Resource calendars', 'Change requests', ['Project management plan updates', 'Resource management plan', 'Cost baseline'], ['Project document updates', 'Lessons learned register', 'Project schedule', 'Resource breakdown structure', 'Resource requirements', 'Risk register'], 'Enterprise environmental factors', 'Organizational process assets'], 328);
+
+	createITTOCard('inputs', 'HR', 'Develop Team', [['Project management plan', 'Resource management plan'], ['Project documents', 'Lessons learned register', 'Project schedule',  'Project team assignments', 'Resource calendars', 'Team charter'], 'Enterprise environmental factors', 'Organizational process assets'], 336);
+	createITTOCard('tools', 'HR', 'Develop Team', ['Virtual teams', 'Communication technology', ['Interpersonal  and team skills', 'Conflict management', 'Influencing', 'Motivation', 'Negotiation', 'Team building'], 'Training', 'Colocation', 'Recognition and rewards', 'Individual and team assessment tools', 'Meetings'], 336);
+	createITTOCard('outputs', 'HR', 'Develop Team', ['Team performance assessments', 'Change requests', ['Project management plan updates', 'Resource management plan'],  ['Project documents updates', 'Lessons learned register', 'Project schedule', 'Project team assignments', 'Resource calendars', 'Team charter'], 'Enterprise environmental factors updates', 'Organizational process assets'], 336);
+
+	createITTOCard('inputs', 'HR', 'Manage Team', [['Project management plan', 'Resource management plan'], ['Project documents', 'Issue log', 'Lessons learned register', 'Project team assignments'], 'Team performance assessments', 'Work performance reports', 'Organizational process assets', 'Enterprise environmental factors'], 345);
+	createITTOCard('tools', 'HR', 'Manage Team', [['Interpersonal and team skills', 'Conflict management', 'Decision making', 'Emotional intelligence', 'Influencing', 'Leadership'], 'Project management information system'], 345);
+	createITTOCard('outputs', 'HR', 'Manage Team', ['Change requests', ['Project management plan updates', 'Resource management plan', 'Schedule baseline', 'Cost baseline'], ['Project documents updates', 'Issue log', 'Lessons learned register', 'Project team assignments'], 'Enterprise environmental factors updates', 'Organizational process assets updates'], 345);
+
+	createITTOCard('inputs', 'HR', 'Control Resources', [['Project management plan', 'Resource management plan'], ['Project documents', 'Issue log', 'Lessons learned register', 'Physical resource assignments', 'Project schedule', 'Resource breakdown structure', 'Resource requirements', 'Risk register'], 'Agreements', 'Work performance data', 'Organizational process assets', 'Enterprise environmental factors'], 352);
+	createITTOCard('tools', 'HR', 'Control Resources', [['Data analysis', 'Alternative analysis', 'Cost-benefit analysis', 'Performance reviews', 'Trend analysis'], 'Problem solving' , ['Interpersonal and team skills', 'Negotiation', 'Influencing'], 'Project management information system'], 352);
+	createITTOCard('outputs', 'HR', 'Control Resources', ['Work performance information','Change requests', ['Project management plan updates', 'Resource management plan', 'Schedule baseline', 'Cost baseline'], ['Project documents updates', 'Assumption log', 'Issue log', 'Lessons learned register', 'Physical resource assignments', 'Resource breakdown structure', 'Risk register']], 352);
 
 	/* COMMUNICATION */
 	
-	createITTOCard('inputs', 'Communication', 'Plan Communications Management', ['Project management plan', 'Stakeholder register', 'Enterprise environmental factors', 'Organizational process assets'], 289);
-	createITTOCard('tools', 'Communication', 'Plan Communications Management', ['Communication requirements analysis', 'Communication technology', 'Communication models', 'Communication methods', 'Meetings'], 289);
-	createITTOCard('outputs', 'Communication', 'Plan Communications Management', ['Communications management plan', 'Project documents updates'], 289);
+	createITTOCard('inputs', 'Communication', 'Plan Communications Management', ['Project charter', ['Project management plan', 'Resource management plan', 'Stakeholder engagement plan'], ['Project documents', 'Requirements documentation', 'Stakeholder register'], 'Enterprise environmental factors', 'Organizational process assets'], 366);
+	createITTOCard('tools', 'Communication', 'Plan Communications Management', ['Expert judgement', 'Communication requirements analysis', 'Communication technology', 'Communication models', 'Communication methods', ['Interpersonal and team skills', 'Communication styles assessment', 'Political awareness', 'Cultural awareness'], ['Data representation', 'Stakeholder engagement matrix'], 'Meetings'], 366);
+	createITTOCard('outputs', 'Communication', 'Plan Communications Management', ['Communications management plan', ['Project management plan updates', 'Stakeholder engagement plan'], ['Project documents updates', 'Project schedule', 'Stakeholder register']], 366);
 
-	createITTOCard('inputs', 'Communication', 'Manage Communications', ['Communications management plan', 'Work performance reports', 'Enterprise environmental factors', 'Organizational process assets'], 297);
-	createITTOCard('tools', 'Communication', 'Manage Communications', ['Communication technology', 'Communication models', 'Communication methods', 'Information management systems', 'Performance reporting'], 297);
-	createITTOCard('outputs', 'Communication', 'Manage Communications', ['Project communications', 'Project management plan updates', 'Project documents updates', 'Organizational process assets updates'], 297);
+	createITTOCard('inputs', 'Communication', 'Manage Communications', [['Project management plan', 'Communications management plan', 'Resource management plan', 'Stakeholder engagement plan'], ['Project documents', 'Change log', 'Issue log', 'Lessons learned register', 'Quality report', 'Risk report', 'Stakeholder register'], 'Work performance reports', 'Enterprise environmental factors', 'Organizational process assets'], 379);
+	createITTOCard('tools', 'Communication', 'Manage Communications', ['Communication technology', ['Communication skills', 'Communication compentence', 'Feedback', 'Nonverbal', 'Presentations'], 'Communication methods', 'Information management systems', 'Project reporting', ['Interpersonal and team skils', 'Active listening', 'Conflict management', 'Cultural awareness', 'Meeting management', 'Networking', 'Political awareness'], 'Meetings'], 379);
+	createITTOCard('outputs', 'Communication', 'Manage Communications', ['Project communications', ['Project management plan updates', 'Communication management plna', 'Stakeholder engagement plan'], ['Project documents updates', 'Issue log', 'Lessons learned register', 'Project schedule', 'Risk register'], 'Organizational process assets updates'], 379);
 
-	createITTOCard('inputs', 'Communication', 'Control Communications', ['Project management plan', 'Project communications', 'Issue log', 'Work performance data', 'Organizational process assets'], 303);
-	createITTOCard('tools', 'Communication', 'Control Communications', ['Information management systems', 'Expert judgment', 'Meetings'], 303);
-	createITTOCard('outputs', 'Communication', 'Control Communications', ['Work performance information', 'Change requests', 'Project management plan updates', 'Project documents updates', 'Organizational process assets updates'], 303);
+	createITTOCard('inputs', 'Communication', 'Monitor Communications', [['Project management plan', 'Resource management plan', 'Communication management plan', 'Stakeholder engagement plan'], ['Project documents', 'Lessons learned register', 'Project communications', 'Issue log'], 'Work performance data', 'Organizational process assets', 'Enterprise environmental factors'], 388);
+	createITTOCard('tools', 'Communication', 'Monitor Communications', [['Data analysis', 'Stakeholder engagement matrix'], 'Project management information system', 'Expert judgment', ['Interpersonal and team skills', 'Observation/conversation'], 'Meetings'], 388);
+	createITTOCard('outputs', 'Communication', 'Monitor Communications', ['Work performance information', 'Change requests', ['Project management plan updates', 'Communication management plan', 'Stakeholder engagement plan'], ['Project documents updates', 'Issue log', 'Lessons learned register', 'Stakeholder register']], 388);
 
 
 	/* RISK */
 
 
-	createITTOCard('inputs', 'Risk', 'Plan Risk Management', ['Project management plan', 'Project charter', 'Stakeholder register', 'Enterprise environmental factors', 'Organizational process assets'], 313);
-	createITTOCard('tools', 'Risk', 'Plan Risk Management', ['Analytical techniques', 'Expert judgment', 'Meetings'], 313);
-	createITTOCard('outputs', 'Risk', 'Plan Risk Management', ['Risk management plan'], 313);
+	createITTOCard('inputs', 'Risk', 'Plan Risk Management', [['Project management plan', 'All components'], 'Project charter', ['Project documents','Stakeholder register'], 'Enterprise environmental factors', 'Organizational process assets'], 401);
+	createITTOCard('tools', 'Risk', 'Plan Risk Management', [['Data analysis', 'Stakeholder analysis'], 'Expert judgment', 'Meetings'], 401);
+	createITTOCard('outputs', 'Risk', 'Plan Risk Management', ['Risk management plan'], 401);
 
-	createITTOCard('inputs', 'Risk', 'Identify Risks', ['Risk management plan', 'Cost management plan', 'Schedule management plan', 'Quality management plan', 'Human resource management plan', 'Scope baseline', 'Activity cost estimates', 'Activity duration estimates', 'Stakeholder register', 'Project documents', 'Procurement documents', 'Enterprise environmental factors', 'Organizational process assets'], 319);
-	createITTOCard('tools', 'Risk', 'Identify Risks', ['Documentation reviews', 'Information gathering techniques', 'Checklist analysis', 'Assumptions analysis', 'Diagramming techniques', 'SWOT analysis', 'Expert judgment'], 319);
-	createITTOCard('outputs', 'Risk', 'Identify Risks', ['Risk register'], 319);
+	createITTOCard('inputs', 'Risk', 'Identify Risks', [['Project management plan', 'Schedule management plan', 'Risk management plan', 'Cost management plan', 'Schedule management plan', 'Quality management plan', 'Resource management plan', 'Scope baseline', 'Schedule baseline', 'Cost baseline'], ['Project documents', 'Assumption log', 'Cost estimates', 'Duration estimates', 'Issue log', 'Lessons learned register', 'Requirements documentation', 'Stakeholder register'], 'Agreements', 'Procurement documentation', 'Enterprise environmental factors', 'Organizational process assets'], 409);
+	createITTOCard('tools', 'Risk', 'Identify Risks', ['Expert judgment', ['Data gathering', 'Brainstorming', 'Checklists', 'Interviews'], ['Data analysis', 'Root cause analysis', 'Assumption and constraint analysis', 'SWOT analysis', 'Document analysis'], ['Interpersonal and team skills', 'Facilitation'], 'Prompt lists', 'Meetings'], 409);
+	createITTOCard('outputs', 'Risk', 'Identify Risks', ['Risk register', 'Risk report', ['Project document updates', 'Assumption log', 'Issue log', 'Lessons learned register']], 409);
 
-	createITTOCard('inputs', 'Risk', 'Perform Qualitative Risk Analysis', ['Risk management plan', 'Scope baseline', 'Risk register', 'Enterprise environmental factors', 'Organizational process assets'], 328);
-	createITTOCard('tools', 'Risk', 'Perform Qualitative Risk Analysis', ['Risk probability and impact assessment', 'Probability and impact matrix', 'Risk data quality assessment', 'Risk categorization', 'Risk urgency assessment', 'Expert judgment'], 328);
-	createITTOCard('outputs', 'Risk', 'Perform Qualitative Risk Analysis', ['Project documents updates'], 328);
+	createITTOCard('inputs', 'Risk', 'Perform Qualitative Risk Analysis', [['Project management plan', 'Risk management plan'], ['Project documents', 'Assumption log', 'Stakeholder register', 'Risk register'], 'Enterprise environmental factors', 'Organizational process assets'], 419);
+	createITTOCard('tools', 'Risk', 'Perform Qualitative Risk Analysis', ['Expert judgment', ['Data gathering', 'Interviews'], ['Data analysis', 'Risk probability and impact assessment', 'Probability and impact matrix', 'Risk data quality assessment'],  ['Interpersonal and team skills', 'Facilitation'], ['Data representation', 'Probability and impact matrix', 'Hierarchical charts'], 'Meetings'], 419);
+	createITTOCard('outputs', 'Risk', 'Perform Qualitative Risk Analysis', [['Project documents updates', 'Assumption log', 'Issue log', 'Risk register', 'Risk reports']], 419);
 
-	createITTOCard('inputs', 'Risk', 'Perform Quantitative Risk Analysis', ['Risk management plan', 'Cost management plan', 'Schedule management plan', 'Risk register', 'Enterprise environmental factors', 'Organizational process assets'], 333);
-	createITTOCard('tools', 'Risk', 'Perform Quantitative Risk Analysis', ['Data gathering and representation techniques', 'Quantitative risk analysis and modeling techniques', 'Expert judgment'], 333);
-	createITTOCard('outputs', 'Risk', 'Perform Quantitative Risk Analysis', ['Project documents updates'], 333);
+	createITTOCard('inputs', 'Risk', 'Perform Quantitative Risk Analysis', [['Project management plan', 'Risk management plan', 'Scope baseline', 'Schedule baseline', 'Cost baseline'], ['Project documents', 'Assumption log', 'Basis of estimates', 'Cost estimates', 'Cost forecasts', 'Duration estimates', 'Milestone list', 'Resource requirements', 'Risk report', 'Risk register', 'Schedule forecasts'], 'Enterprise environmental factors', 'Organizational process assets'], 428);
+	createITTOCard('tools', 'Risk', 'Perform Quantitative Risk Analysis', ['Expert judgment', ['Data gathering', 'Interviews'], ['Interpersonal and team skills', 'Facilitation'], 'Representation of uncertainty', ['Data analysis', 'Simulations', 'Sensitivity analysis', 'Decision tree analysis', 'Influence diagrams']], 428);
+	createITTOCard('outputs', 'Risk', 'Perform Quantitative Risk Analysis', [['Project documents updates', 'Risk reports']], 428);
 
-	createITTOCard('inputs', 'Risk', 'Plan Risk Responses', ['Risk management plan', 'Risk register'], 342);
-	createITTOCard('tools', 'Risk', 'Plan Risk Responses', ['Strategies for negative risks or threats', 'Strategies for positive risks or opportunities', 'Contingent response strategies', 'Expert judgment'], 342);
-	createITTOCard('outputs', 'Risk', 'Plan Risk Responses', ['Project management plan updates', 'Project documents updates'], 342);
+	createITTOCard('inputs', 'Risk', 'Plan Risk Responses', [['Project management plan', 'Resource management plan', 'Risk management plan', 'Cost baseline'], ['Project documents', 'Lessons learned register', 'Project schedule', 'Project team assignments', 'Resource calendars', 'Risk register', 'Risk report', 'Stakeholder register'], 'Enterprise environmental factors', 'Organizational process assets'], 437);
+	createITTOCard('tools', 'Risk', 'Plan Risk Responses', ['Expert judgment', ['Data gathering', 'Interviews'], ['Interpersonal and team skills', 'Facilitation'], 'Strategies for threats', 'Strategies for opportunities', 'Contingent response strategies', 'Startagies for overall project risks', ['Data analysis', 'Alternative analysis', 'Cost-benefit analysis'], ['Decision making', 'Multicriteria decision analysis']], 437);
+	createITTOCard('outputs', 'Risk', 'Plan Risk Responses', ['Change requests', ['Project management plan updates', 'Schedule management plan', 'Cost management plan', 'Quality management plan', 'Resource management plan', 'Procurement management plan', 'Scope baseline', 'Schedule baseline', 'Cost baseline'], ['Project documents updates', 'Assumption log', 'Cost forecasts', 'Lessons learned register', 'Project schedule', 'Project team assignments', 'Risk register', 'Risk report']], 437);
 
-	createITTOCard('inputs', 'Risk', 'Control Risks', ['Project management plan', 'Risk register', 'Work performance data', 'Work performance reports'], 349);
-	createITTOCard('tools', 'Risk', 'Control Risks', ['Risk reassessment', 'Risk audits', 'Variance and trend analysis', 'Technical performance measurement', 'Reserve analysis', 'Meetings'], 349);
-	createITTOCard('outputs', 'Risk', 'Control Risks', ['Work performance information', 'Change requests', 'Project management plan updates', 'Project documents updates', 'Organizational process assets updates'], 349);
+	createITTOCard('inputs', 'Risk', 'Implement risk responses', [['Project management plan', 'Risk management plan'], ['Project documents', 'Lessons learned register', 'Risk report',  'Risk register'], 'Organizational process assets'], 449);
+	createITTOCard('tools', 'Risk', 'Implement risk responses', ['Expert judgment', ['Interpersonal and team skills', 'Influencing'], 'Project management information system'], 449);
+	createITTOCard('outputs', 'Risk', 'Implement risk responses', [ 'Change requests', ['Project documents updates', 'Issue log', 'Lessons learned register', 'Project team assignments', 'Risk register', 'Risk report']], 449);
+
+	createITTOCard('inputs', 'Risk', 'Monitor Risks', [['Project management plan', 'Risk management plan'], ['Project documents', 'Issue log',  'Lessons learned register', 'Risk report', 'Risk register'], 'Work performance data', 'Work performance reports'], 453);
+	createITTOCard('tools', 'Risk', 'Monitor Risks', [['Data analysis', 'Technical performance analysis', 'Reserve analysis'], 'Audits', 'Meetings'], 453);
+	createITTOCard('outputs', 'Risk', 'Monitor Risks', ['Work performance information', 'Change requests', ['Project management plan updates', 'Any component'], ['Project documents updates', 'Assumption log', 'Issue log', 'Lessons learned register', 'Risk report', 'Risk register'], 'Organizational process assets updates'], 453);
 
 
 	/* PROCUREMENT */
 
 
-	createITTOCard('inputs', 'Procurement', 'Plan Procurement Management', ['Project management plan', 'Requirements documentation', 'Risk register', 'Activity resource requirements', 'Project schedule', 'Activity cost estimates', 'Stakeholder register', 'Enterprise environmental factors', 'Organizational process assets'], 358);
-	createITTOCard('tools', 'Procurement', 'Plan Procurement Management', ['Make-or-buy analysis', 'Expert judgment', 'Market research', 'Meetings'], 358);
-	createITTOCard('outputs', 'Procurement', 'Plan Procurement Management', ['Procurement management plan', 'Procurement statement of work', 'Procurement documents', 'Source selection criteria', 'Make-or-buy decisions', 'Change requests', 'Project documents updates'], 358);
+	createITTOCard('inputs', 'Procurement', 'Plan Procurement Management', ['Project charter', ['Business documents', 'Business case', 'Benefits management plan'], ['Project management plan', 'Scope management plan', 'Quality management plan', 'Resource management plan', 'Scope baseline'], ['Project documents', 'Milestone list', 'Requirements documentation', 'Risk register', 'Resource requirements', 'Requirement traceability matrix', 'Project team assignments', 'Stakeholder register'], 'Enterprise environmental factors', 'Organizational process assets'], 466);
+	createITTOCard('tools', 'Procurement', 'Plan Procurement Management', [['Data analysis', 'Make-or-buy analysis'], 'Expert judgment', ['Data gathering', 'Market research'], 'Source selection analysis',  'Meetings'], 466);
+	createITTOCard('outputs', 'Procurement', 'Plan Procurement Management', ['Procurement management plan', 'Procurement strategy', 'Bid documents', 'Procurement statement of work',  'Source selection criteria', 'Make-or-buy decisions', 'Independent cost estimates', 'Change requests', ['Project documents updates', 'Lessons learned register', 'Milestone list', 'Requirements documentation', 'Requirements traceability matrix', 'Risk register', 'Stakeholder register'], 'Organizational process assets'], 466);
 
-	createITTOCard('inputs', 'Procurement', 'Conduct Procurements', ['Procurement management plan','Procurement documents', 'Source selection criteria', 'Seller proposals', 'Project documents', 'Make-or-buy decisions', 'Procurement statement of work', 'Organizational process assets'], 378);
-	createITTOCard('tools', 'Procurement', 'Conduct Procurements', ['Bidder conference', 'Proposal evaluation techniques', 'Independent estimates', 'Expert judgment', 'Advertising', 'Analytical techniques', 'Procurement negotiations'], 378);
-	createITTOCard('outputs', 'Procurement', 'Conduct Procurements', ['Selected sellers', 'Agreements', 'Resource calendars', 'Change requests', 'Project management plan updates', 'Project documents updates'], 378);
+	createITTOCard('inputs', 'Procurement', 'Conduct Procurements', [['Project management plan', 'Scope management plan', 'Requirements management plan', 'Communication management plan', 'Risk management plan', 'Procurement management plan', 'Configuration management plan', 'Cost baseline'], ['Project documents', 'Lessons learned register', 'Project schedule', 'Requirements documentation', 'Risk register', 'Stakeholder register'], 'Procurement documentation', 'Seller proposals', 'Enterprise environmental factors', 'Organizational process assets'], 482);
+	createITTOCard('tools', 'Procurement', 'Conduct Procurements', ['Expert judgment', 'Advertising', 'Bidder conferences',['Data analysis', 'Proposal evaluation'], ['Interpersonal and team skills', 'Negotiation']], 482);
+	createITTOCard('outputs', 'Procurement', 'Conduct Procurements', ['Selected sellers', 'Agreements', 'Change requests', ['Project management plan updates', 'Requirements management plan', 'Quality management plan', 'Communication management plan', 'Risk management plan', 'Procurement management plan', 'Scope baseline', 'Schedule baseline', 'Cost baseline'], ['Project documents updates', 'Lessons learned register', 'Requirements documentation', 'Requirements traceability matrix', 'Risk register', 'Stakeholder register', 'Resource calendars'], 'Organizational process assets updates'], 482);
 
-	createITTOCard('inputs', 'Procurement', 'Control Procurements', ['Project management plan', 'Procurement documents', 'Agreements', 'Approved change requests', 'Work performance reports', 'Work performance data'], 379);
-	createITTOCard('tools', 'Procurement', 'Control Procurements', ['Contract change control system', 'Procurement performance reviews', 'Inspections and audits', 'Performance reporting', 'Payment systems', 'Claims administration', 'Records management'], 379);
- 	createITTOCard('outputs', 'Procurement', 'Control Procurements', ['Work performance information', 'Change requests', 'Project management plan updates', 'Project documents updates', 'Organizational process assets updates'], 379);
-
-	createITTOCard('inputs', 'Procurement', 'Close Procurements', ['Project management plan', 'Procurement documents'], 386);
-	createITTOCard('tools', 'Procurement', 'Close Procurements', ['Procurement audits', 'Procurement negotiations', 'Records management system'], 386);
-	createITTOCard('outputs', 'Procurement', 'Close Procurements', ['Closed procurements', 'Organizational process assets updates'], 386);
-
+	createITTOCard('inputs', 'Procurement', 'Control Procurements', [['Project management plan', 'Requirements management plan', 'Risk management plan', 'Procurement management plan', 'Change management plan', 'Schedule baseline'], ['Project documents', 'Assumption log', 'Lessons learned register', 'Milestone list', 'Quality reports', 'Requirements documentation', 'Requirements traceability matrix', 'Risk register', 'Stakeholder register'], 'Procurement documents', 'Agreements', 'Approved change requests', 'Work performance data', 'Enterprise environmental factors', 'Organizational process assets'], 492);
+	createITTOCard('tools', 'Procurement', 'Control Procurements', ['Expert judgment', 'Claims administration', ['Data analysis', 'Performance reviewa', 'Earned value analysis', 'Trend analysis'], 'Inspection', 'Audits'], 492);
+ 	createITTOCard('outputs', 'Procurement', 'Control Procurements', ['Closed procurements', 'Work performance information', 'Procurement documentation updates', 'Change requests', ['Project management plan updates', 'Risk management plan', 'Procurement management plan', 'Schedule baseline', 'Cost baseline'], ['Project documents updates', 'Lessons learned register', 'Resource requirements', 'Requirements traceability matrix', 'Risk register', 'Stakeholder register'], 'Organizational process assets updates'], 492);
 
 
 	/* STAKEHOLDER */
 
 
-	createITTOCard('inputs', 'Stakeholder', 'Identify Stakeholders', ['Project charter', 'Procurement documents', 'Enterprise environmental factors', 'Organizational process assets'], 393);
-	createITTOCard('tools', 'Stakeholder', 'Identify Stakeholders', ['Stakeholder analysis', 'Expert judgment', 'Meetings'], 393);
-	createITTOCard('outputs', 'Stakeholder', 'Identify Stakeholders', ['Stakeholder register'], 393);
+	createITTOCard('inputs', 'Stakeholder', 'Identify Stakeholders', ['Project charter', ['Business documentation', 'Business case', 'Benefits management plan'], ['Project management plan', 'Communications management plan', 'Stakeholder engagement plan'],  ['Project documents', 'Change log', 'Issue log', 'Requirements documentation'], 'Agreements', 'Enterprise environmental factors', 'Organizational process assets'], 507);
+	createITTOCard('tools', 'Stakeholder', 'Identify Stakeholders', [['Data gathering', 'Questionnaires and surveys', 'Brainstorming'], ['Data analysis','Stakeholder analysis', 'Document analysis'], 'Expert judgment', ['Data representation', 'Stakeholder mapping/representation'], 'Meetings'], 507);
+	createITTOCard('outputs', 'Stakeholder', 'Identify Stakeholders', ['Stakeholder register', 'Change requests', ['Project management plan updates', 'Requirements management plan', 'Communications management plan', 'Risk management plan', 'Stakeholder engagement plan'], ['Project documents updates', 'Assumption log', 'Issue log', 'Risk register']], 507);
 
-	createITTOCard('inputs', 'Stakeholder', 'Plan Stakeholder Management', ['Project management plan', 'Stakeholder register', 'Enterprise environmental factors', 'Organizational process assets'], 399);
-	createITTOCard('tools', 'Stakeholder', 'Plan Stakeholder Management', ['Expert judgment', 'Meetings', 'Analytical techniques'], 399);
-	createITTOCard('outputs', 'Stakeholder', 'Plan Stakeholder Management', ['Stakeholder management plan', 'Project documents updates'], 399);
+	createITTOCard('inputs', 'Stakeholder', 'Plan Stakeholder Engagement', ['Project charter', ['Project management plan', 'Resource management plan', 'Communication management plan', 'Risk management plan'], ['Project documents', 'Assumption log', 'Issue log', 'Project schedule', 'Risk register', 'Stakeholder register'], 'Agreements', 'Enterprise environmental factors', 'Organizational process assets'], 516);
+	createITTOCard('tools', 'Stakeholder', 'Plan Stakeholder Engagement', ['Expert judgment', 'Meetings', ['Data gathering', 'Benchmarking'], ['Data analysis', 'Assumption and constraint analysis', 'Root cause analysis'], ['Decision making', 'Prioritization/Ranking'], ['Data representation', 'Mind mapping', 'Stakeholder engagement assessment matrix']], 516);
+	createITTOCard('outputs', 'Stakeholder', 'Plan Stakeholder Engagement', ['Stakeholder engagement plan'], 516);
 
-	createITTOCard('inputs', 'Stakeholder', 'Manage Stakeholder Engagement', ['Stakeholder management plan', 'Communications management plan', 'Change log', 'Organizational process assets'], 404);
-	createITTOCard('tools', 'Stakeholder', 'Manage Stakeholder Engagement', ['Communication methods', 'Interpersonal skills', 'Management skills'], 404);
-	createITTOCard('outputs', 'Stakeholder', 'Manage Stakeholder Engagement', ['Issue log', 'Change requests', 'Project management plan updates', 'Project documents updates', 'Organizational process assets updates'], 404);
+	createITTOCard('inputs', 'Stakeholder', 'Manage Stakeholder Engagement', [['Project management plan', 'Risk management plan', 'Change management plan', 'Stakeholder engagement plan', 'Communications management plan'], ['Project documents', 'Issue log', 'Change log', 'Lessons learned register', 'Stakeholder register'], 'Organizational process assets', 'Enterprise environmental factors'], 523);
+	createITTOCard('tools', 'Stakeholder', 'Manage Stakeholder Engagement', ['Expert judgement', ['Communication skills', 'Feedback'], ['Interpersonal and team skills', 'Conflict management', 'Cultural awareness', 'Negotiation', 'Observation/conversation', 'Political awareness'], 'Ground rules', 'Meetings'], 523);
+	createITTOCard('outputs', 'Stakeholder', 'Manage Stakeholder Engagement', ['Change requests',[ 'Project management plan updates', 'Communications management plan', 'Stakeholder engagement plan'], ['Project documents updates', 'Change log', 'Issue log', 'Lessons learned register', 'Stakeholder register']], 523);
 
-	createITTOCard('inputs', 'Stakeholder', 'Control Stakeholder Engagement', ['Project management plan', 'Issue log', 'Work performance data', 'Project documents'], 409);
-	createITTOCard('tools', 'Stakeholder', 'Control Stakeholder Engagement', ['Information management systems', 'Expert judgment', 'Meetings'], 409);
-	createITTOCard('outputs', 'Stakeholder', 'Control Stakeholder Engagement', ['Work performance information', 'Change requests', 'Project management plan updates', 'Project documents updates', 'Organizational process assets updates'], 409);
+	createITTOCard('inputs', 'Stakeholder', 'Monitor Stakeholder Engagement', [['Project management plan', 'Resource management plan', 'Communications management plan', 'Stakeholder engagement plan'], ['Project documents', 'Issue log', 'Lessons learned register', 'Project communications', 'Risk register', 'Stakeholder register'], 'Work performance data', 'Enterprise environmental factors', 'Organizational process assets'], 530);
+	createITTOCard('tools', 'Stakeholder', 'Monitor Stakeholder Engagement', [['Data analysis', 'Alternative analysis', 'Root cause analysis', 'Stakeholder analysis'], ['Decision making', 'Multicriteria decision analysis', 'Voting'], ['Data representation', 'Stakeholder engagement assessment matrix'], ['Communication skills', 'Feedback', 'Presentations'], ['Interpersonal and team skills', 'Active listening', 'Cultural awareness', 'Leadership', 'Networking', 'Political awareness'], 'Meetings'], 530);
+	createITTOCard('outputs', 'Stakeholder', 'Monitor Stakeholder Engagement', ['Work performance information', 'Change requests', ['Project management plan updates', 'Resource management plan', 'Communication management plan', 'Stakeholder engagement plan'], ['Project documents updates', 'Issue log', 'Lessons learned register', 'Risk register', 'Stakeholder register']], 530);
 
 
 }
